@@ -1,4 +1,6 @@
+#!/usr/bin/env bash
 set -ex
+cd main-test/
 calicoctl apply -f pools.yml
 kubectl apply -f namespace.yml
 pushd .
