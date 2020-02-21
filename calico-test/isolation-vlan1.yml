@@ -1,0 +1,58 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: isolation-ns-1
+spec:
+  selector: projectcalico.org/namespace == "test1"
+  # nets: ['172.16.0.0/28']
+  types:
+  - Ingress
+  - Egress
+  ingress:
+  - action: Allow
+    metadata:
+      annotations:
+        from: ns1
+        to: itself
+    protocol: TCP
+    
+    source:
+      # selector: projectcalico.org/namespace == "ns1"
+        nets: ['10.0.0.0/28']
+    # destination:
+    #   ports:
+    #   - 6379
+  - action: Allow
+    metadata:
+      annotations:
+        from: ns1
+        to: itself
+    protocol: ICMP
+    source:
+      # selector: projectcalico.org/namespace == "ns1"
+        nets: ['10.0.0.0/28']
+  - action: Allow
+    metadata:
+      annotations:
+        from: outside
+        to: service
+    protocol: TCP
+    source:
+      # selector: projectcalico.org/namespace == "ns1"
+        notNets: ['10.0.0.0/8']
+    # destination:
+    #   ports:
+    #   - 6379
+  # - action: Deny
+  #   metadata:
+  #       annotations:
+  #         from: outside
+  #         to: ns1
+  #   protocol: TCP
+  #   protocol: ICMP
+  #   source:
+  #     # notSelector: projectcalico.org/namespace == "ns1"
+  #     notNets: ['172.16.0.0/28']
+  # egress:
+  # - action: Allow
+

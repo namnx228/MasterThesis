@@ -1,0 +1,52 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: isolation-ns-2
+spec:
+  selector: projectcalico.org/namespace == "test2"
+  # nets: '192.231.100.0/28'
+  types:
+  - Ingress
+  - Egress
+  ingress:
+  - action: Allow
+    metadata:
+      annotations:
+        from: test2
+        to: itself
+    protocol: TCP
+    source:
+      selector: projectcalico.org/namespace == "test2"
+  - action: Allow
+    metadata:
+      annotations:
+        from: test2
+        to: itself
+    protocol: TCP
+    source:
+        nets: ['10.0.1.0/28']
+  - action: Allow
+    metadata:
+      annotations:
+        from: outside
+        to: serivce
+    protocol: TCP
+    source:
+        nets: ['10.0.0.0/8']
+      # selector: projectcalico.org/namespace == "kube-system"
+    # destination:
+    #   ports:
+    #   - 6379
+  # - action: Deny
+  #   metadata:
+  #       annotations:
+  #         from: outside
+  #         to: ns2
+  #   protocol: TCP
+  #   protocol: ICMP
+  #   source:
+  #     # notSelector: projectcalico.org/namespace == "ns1"
+  #     notNets: ['192.231.100.0/28']
+  # egress:
+  # - action: Allow
+
