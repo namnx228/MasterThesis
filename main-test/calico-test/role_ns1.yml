@@ -10,3 +10,7 @@ rules:
 - apiGroups: [ "apps" ] # "" indicates the core API group
   resources: ["pods", "networkpolicy", "service", "role", "rolebinding", "deployments", "node"]
   verbs: ["view", "create", "get", "watch", "list", "edit", "delete"]
+- apiGroups: [ "networking.k8s.io" ] # "" indicates the core API group
+  resources: [ "networkpolicies"]
+  verbs: ["view", "create", "get", "watch", "list", "edit", "delete"]
+

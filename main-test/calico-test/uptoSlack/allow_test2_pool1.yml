@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: overwrite
+  namespace: test1
+spec:
+  podSelector: {}
+  ingress:
+    - from: 
+      - namespaceSelector:
+          matchLabels:
+            name: test1
+      - ipBlock:
+          cidr: 10.0.1.0/28
+  policyTypes:
+  - Ingress

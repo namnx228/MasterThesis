@@ -3,9 +3,7 @@ kind: GlobalNetworkPolicy
 metadata:
   name: isolation-ns-1
 spec:
-  # order: 800
   selector: projectcalico.org/namespace == "test1"
-  # nets: ['172.16.0.0/28']
   types:
   - Ingress
   - Egress
@@ -16,13 +14,8 @@ spec:
         from: ns1
         to: itself
     protocol: TCP
-    
     source:
-      # selector: projectcalico.org/namespace == "ns1"
         nets: ['10.0.0.0/28']
-    # destination:
-    #   ports:
-    #   - 6379
   - action: Allow
     metadata:
       annotations:
@@ -30,7 +23,6 @@ spec:
         to: itself
     protocol: ICMP
     source:
-      # selector: projectcalico.org/namespace == "ns1"
         nets: ['10.0.0.0/28']
 
   - action: Deny
@@ -40,21 +32,5 @@ spec:
           to: test1
     protocol: TCP
     source:
-      # notSelector: projectcalico.org/namespace == "ns1"
       notNets: ['10.0.0.0/28']
-
-  # - action: Allow
-  #   metadata:
-  #     annotations:
-  #       from: outside
-  #       to: service
-  #   protocol: TCP
-  #   source:
-  #     # selector: projectcalico.org/namespace == "ns1"
-  #       notNets: ['10.0.0.0/8']
-    # destination:
-    #   ports:
-    #   - 6379
-  # egress:
-  # - action: Allow
 
