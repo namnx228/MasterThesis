@@ -10,8 +10,8 @@ spec:
       - namespaceSelector:
           matchLabels:
             name: test1
-      - namespaceSelector:
-          matchLabels:
-            name: test2
+      # - namespaceSelector:
+      #     matchLabels:
+      #       name: test2
   policyTypes:
-  - ingress
+  - Ingress
