@@ -5,11 +5,14 @@ metadata:
   name: test2 isolation
 rules:
 - apiGroups: [""] # "" indicates the core API group
-  resources: ["pods", "networkpolicy", "services", "role", "rolebinding", "deployments", "node", "pods/attach"]
-  verbs: ["view", "create", "get", "watch", "list", "edit", "delete"]
+  resources: ["pods", "networkpolicy", "services", "role", "rolebinding", "deployments", "node", "pods/attach", "pods/exec"]
+  verbs: ["view", "create", "get", "watch", "list", "edit", "delete", "exec"]
 - apiGroups: [ "apps" ] # "" indicates the core API group
   resources: ["pods", "networkpolicy", "service", "role", "rolebinding", "deployments", "node"]
-  verbs: ["view", "create", "get", "watch", "list", "edit", "delete"]
+  verbs: ["view", "create", "get", "watch", "list", "edit", "delete", "exec"]
+# - apiGroups: [""]
+#   resources: ["pods/exec"]
+#   verbs: ["create"]
 # - apiGroups: [ "run-pod" ]
 #   resources: ["pods"]
 #   verbs: ["view", "create", "get", "edit", "delete"]

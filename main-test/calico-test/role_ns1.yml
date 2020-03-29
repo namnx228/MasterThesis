@@ -5,7 +5,7 @@ metadata:
   name: test1 isolation
 rules:
 - apiGroups: [""] # "" indicates the core API group
-  resources: ["pods", "networkpolicy", "services", "role", "rolebinding", "deployments", "node", "pods/attach"]
+  resources: ["pods", "networkpolicy", "services", "role", "rolebinding", "deployments", "node", "pods/attach", "pods/exec"]
   verbs: ["view", "create", "get", "watch", "list", "edit", "delete"]
 - apiGroups: [ "apps" ] # "" indicates the core API group
   resources: ["pods", "networkpolicy", "service", "role", "rolebinding", "deployments", "node"]

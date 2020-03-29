@@ -3,7 +3,7 @@ kind: GlobalNetworkPolicy
 metadata:
   name: isolation-ns-1
 spec:
-  # order: 800
+  order: 800
   selector: projectcalico.org/namespace == "test1"
   # nets: ['172.16.0.0/28']
   types:
