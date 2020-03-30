@@ -6,6 +6,7 @@ cd user
 ./user_creation_flags.sh -u test2 -g O -d 500
 popd
 # Assign IP ranges
+calicoctl delete ippool default-ipv4-ippool # Delete the default ippool, so it is possible to create and allocate IPs manually
 calicoctl apply -f ../pools.yml
 kubectl annotate ns test1 "cni.projectcalico.org/ipv4pools"='["pool1"]'  --overwrite
 kubectl annotate ns test2 "cni.projectcalico.org/ipv4pools"='["pool2"]'  --overwrite
