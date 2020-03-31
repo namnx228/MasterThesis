@@ -86,8 +86,9 @@ Vagrant.configure("2") do |config|
           echo "export KUBECONFIG=$HOME/.kube/config" | sudo tee ~/.bashrc -a
           export DATASTORE_TYPE=kubernetes
           export KUBECONFIG=$HOME/.kube/config #Phai them cai nay moi calicoctl moi co config
+          echo "source <(kubectl completion bash)" | tee ~/.bashrc -a
 
-          echo 'source <(kubectl completion bash)' | sudo tee $user_home/.bashrc -a
+          # echo 'source <(kubectl completion bash)' | sudo tee $user_home/.bashrc -a # Why co cau lenh nay ?
 
           mkdir /home/vagrant/.kube/ -p
           cp /vagrant_data/pki /tmp/pki -r
