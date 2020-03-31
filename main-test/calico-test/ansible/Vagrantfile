@@ -100,7 +100,7 @@ Vagrant.configure("2") do |config|
           chmod u+x run-test-from-sratch.sh
           yes Y | ./run-test-from-sratch.sh
 
-        SHELL
+          SHELL
     end
 
 end
