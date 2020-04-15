@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
         v.memory = 3072
         v.cpus = 2
     end
-      config.vm.synced_folder "./data", "/vagrant_data" # Mycode
+    config.vm.synced_folder "./data", "/vagrant_data" # Mycode
 
     config.vm.define "k8s-master" do |master|
         master.vm.box = IMAGE_NAME
@@ -68,7 +68,11 @@ Vagrant.configure("2") do |config|
         ########################################################################################################3
         #Another solution
         # system("cp ~/workspace/MasterThesis data/ -r")
+        
 
+        tenant.vm.provision "ansible" do |ansible|
+            ansible.playbook = "kubernetes-setup/install-docker.yml"
+        end
         tenant.vm.provision "shell", privileged: false, inline: <<-SHELL
           
           sudo apt-get update && sudo apt-get install -y apt-transport-https
@@ -80,7 +84,7 @@ Vagrant.configure("2") do |config|
           chmod +x calicoctl
           sudo mv calicoctl /usr/bin/
 
-          export LC_ALL=C
+          export LC_ALL=C  # 
           sudo pip install  pyyaml
           echo "export DATASTORE_TYPE=kubernetes" | sudo tee ~/.bashrc -a
           echo "export KUBECONFIG=$HOME/.kube/config" | sudo tee ~/.bashrc -a
@@ -104,4 +108,19 @@ Vagrant.configure("2") do |config|
           SHELL
     end
 
+    config.vm.define "dev" do |dev|
+        # CHange to 1 core
+        # config.vm.provider "virtualbox" do |v|
+        #     v.memory = 1024
+        #     v.cpus = 2
+        # end
+
+        config.ssh.forward_agent = true
+        config.ssh.forward_x11 = true
+
+        config.vm.synced_folder "./data", "/data" # Mycode
+        dev.vm.box = IMAGE_NAME
+        dev.vm.network "private_network", ip: "192.168.50.#{N + 2 + 10}"
+        dev.vm.hostname = "dev"   
+    end
 end
