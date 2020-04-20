@@ -1,4 +1,0 @@
-name: object7
-namespace: unittest
-annotations:
-  "injector.unittest.com/request": "init-containers"

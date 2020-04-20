@@ -1,4 +1,0 @@
-name: object2
-namespace: unittest
-annotations:
-  "injector.unittest.com/request": "complex-sidecar"

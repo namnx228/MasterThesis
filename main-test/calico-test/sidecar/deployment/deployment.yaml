@@ -1,10 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: perf-sidecar-injector-webhook-deployment
   labels:
     app: perf-sidecar-injector
 spec:
+  selector:
+    matchLabels:
+      app: perf-sidecar-injector
   replicas: 1
   template:
     metadata:
@@ -13,8 +16,8 @@ spec:
     spec:
       containers:
         - name: perf-sidecar-injector
-          image: bpradipt/perf-sidecar-injector:v1
-          imagePullPolicy: IfNotPresent
+          image: namnx228/perf-sidecar-injector-amd64:latest
+          imagePullPolicy: Always
           args:
             - -sidecarCfgFile=/etc/webhook/config/sidecarconfig.yaml
             - -tlsCertFile=/etc/webhook/certs/cert.pem
