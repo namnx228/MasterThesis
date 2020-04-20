@@ -12,11 +12,7 @@ data:
         # stdin: true
         # tty: true
         args:
-            - 'record'
-            - '0'
-            - '60'
-            - '1'
-            - '-g'
+            - 'iplist.json'
         securityContext:
           capabilities:
             add:
