@@ -11,6 +11,12 @@ data:
         imagePullPolicy: Always
         # stdin: true
         # tty: true
+        args:
+            - 'record'
+            - '0'
+            - '60'
+            - '1'
+            - '-g'
         securityContext:
           capabilities:
             add:
