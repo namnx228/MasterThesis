@@ -1,5 +1,5 @@
-docker images namnx228/perf-sidecar-injector-amd64 -q | xargs -r docker rmi -f
-make release
+# docker images namnx228/perf-sidecar-injector-amd64 -q | xargs -r docker rmi -f
+# make release
 kubectl delete -f deployment/deployment.yaml
 sleep 6
 kubectl apply -f deployment/deployment.yaml
