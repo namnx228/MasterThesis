@@ -5,7 +5,13 @@ sleep 6
 kubectl apply -f deployment/deployment.yaml
 # cd ~/MasterThesis/main-test/calico-test/sidecar/k8s-sidecar-injector/examples/kubernetes
 cd ../
-kubectl delete -f nginx-deployment/
+NAMESPACE=default
+if [[ $USER != "vagrant" ]]
+then
+  NAMESPACE=$USER
+fi
+
+kubectl delete -f nginx-deployment/ -n $NAMESPACE
 sleep 10
-kubectl apply -f nginx-deployment/
+kubectl apply -f nginx-deployment/ -n $NAMESPACE
 
