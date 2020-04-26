@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: attacker-cap-sys-admin
+  labels:
+    env: test
+spec:
+  # shareProcessNamespace: true # To share the host PID space
+  containers:
+  - name: attackercapsysadmin
+    image: docker.io/namnx228/k8s-evaluation-security-attacker-amd64
+    imagePullPolicy: Always
+    volumeMounts:
+    - mountPath: /hosts/proc/
+      name: proc-node-1
+    command:
+      - sleep
+      - "3600"
+    securityContext:
+      # privileged: true # ---> Root permission
+      capabilities:
+        add: ["SYS_ADMIN", "CAP_NET_RAW", "CAP_NET_ADMIN"]
+  nodeSelector:
+      kubernetes.io/hostname: node-1
+  restartPolicy: Always
+  volumes:
+  - name: proc-node-1
+    hostPath: 
+      path: /proc #----> mount the /proc file system
+      type: Directory
+

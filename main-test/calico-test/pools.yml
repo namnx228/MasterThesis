@@ -6,9 +6,7 @@ spec:
   cidr: 172.16.0.0/28
   blockSize: 29
   ipipMode: Always
-  natOutgoing: false # To solve internal dns problem
-  # natOutgoing: true
-
+  natOutgoing: true # If false --> No internet access for pod in this namespace
 ---
 
 
@@ -20,4 +18,4 @@ spec:
   cidr: 172.16.1.0/28
   blockSize: 29
   ipipMode: Always
-  natOutgoing: true # Keep like this to test
+  natOutgoing: true 

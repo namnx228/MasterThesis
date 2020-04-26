@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostnames
+spec:
+  selector:
+    matchLabels:
+      run: hostnames
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        run: hostnames
+    spec:
+      containers:
+      - name: hostnames
+        image: k8s.gcr.io/serve_hostname
