@@ -6,3 +6,4 @@ kubeadm
 main-test/calico-test/ansible/.vagrant/
 main-test/calico-test/ansible/data/
 main-test/calico-test/kube-proxy/kubernetes
+*.swp
