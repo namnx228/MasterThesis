@@ -1,8 +1,8 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: test1
-  name: test1 isolation
+  namespace: test${i}
+  name: test${i} 
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources: ["pods", "networkpolicy", "services", "role", "rolebinding", "deployments", "node", "pods/attach", "pods/exec"]
