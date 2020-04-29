@@ -7,3 +7,7 @@ main-test/calico-test/ansible/.vagrant/
 main-test/calico-test/ansible/data/
 main-test/calico-test/kube-proxy/kubernetes
 *.swp
+
+# for sidecar-perf project
+main-test/calico-test/sidecar/perf-sidecar-injector/vendor/
+main-test/calico-test/sidecar/perf-sidecar-injector/perf-sidecar-injector
