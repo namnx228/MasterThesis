@@ -1,8 +1,10 @@
 set -ex
-calicoctl apply -f pool/
-kubectl apply -f namespace/
 NUMOFTENANT=$(($(ls namespace/ | wc -l) - 1))
-# echo $NUMOFTENANT
+for i in $(seq 1 $NUMOFTENANT)
+do
+  calicoctl apply -f pool/pools-${i}.yml
+done
+kubectl apply -f namespace/
 pushd .
 cd user
 for i in $(seq 1 ${NUMOFTENANT} )
