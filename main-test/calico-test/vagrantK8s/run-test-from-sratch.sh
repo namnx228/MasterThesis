@@ -1,5 +1,5 @@
 set -ex
-NUMOFTENANT=$(($(ls namespace/ | wc -l) - 1))
+NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
 
 for i in $(seq 1 $NUMOFTENANT)
 do
