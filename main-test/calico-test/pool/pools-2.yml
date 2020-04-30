@@ -1,9 +1,0 @@
-apiVersion: projectcalico.org/v3
-kind: IPPool
-metadata:
-  name: pool2
-spec:
-  cidr: 172.16.2.0/24
-  blockSize: 29
-  ipipMode: Always
-  natOutgoing: true # If false --> No internet access for pod in this namespace
