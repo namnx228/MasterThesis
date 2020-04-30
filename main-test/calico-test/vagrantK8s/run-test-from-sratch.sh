@@ -12,7 +12,7 @@ pushd .
 cd user/
 for i in $(seq 1 ${NUMOFTENANT} )
 do
-  ./user/user_creation_flags.sh -u "test$i" -g O -d 500
+  ./user_creation_flags.sh -u "test$i" -g O -d 500
   kubectl annotate ns "test$i" "cni.projectcalico.org/ipv4pools"='["pool${i}"]'  --overwrite
 done
 popd
