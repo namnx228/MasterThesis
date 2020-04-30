@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
-# set -e
-set -x
+set -e
+# set -x
 # Get list of file 
 # Xu ly tung file:
 # Get cai dir cua no
@@ -34,7 +34,7 @@ done
 
 #------------------------------------
 # Only Generate one file
-file="../sidecar/perf-sidecar-injector/deployment/configure.format"
+file="../sidecar/perf-sidecar-injector/deployment/configmap.format"
 fileWithoutExtension="${file%.*}"
 sed -e "s|\${i}|${NUMOFTENANTS}|g" ${file} > ${fileWithoutExtension}.yml
 

@@ -1,20 +1,24 @@
 IMAGE ?= namnx228/k8s-multitenancy-sidecar-container
-TAG ?= $(shell git describe --tags --always)
-RELEASE_TAG := v$(shell cat VERSION)
-ARCH ?= $(shell uname -m)
+# TAG ?= $(shell git describe --tags --always)
+TAG ?= v1
+# RELEASE_TAG := v$(shell cat VERSION)
+RELEASE_TAG := v1
 
+ARCH ?= $(shell uname -m)
+NAMESPACE_DIR ?= "../../../namespace/"
+NUMFILEINNAMESPACE ?= $(shell ls $(NAMESPACE_DIR) | wc -l)
+NUMBEROFTENANTS ?= $(shell expr $(NUMFILEINNAMESPACE) - 1 )
 ifeq ($(ARCH), x86_64)
-	IMAGE_ARCH = $(IMAGE)-amd64
+	IMAGE_ARCH = $(IMAGE)-amd64-$(NUMBEROFTENANTS)
 else
-	IMAGE_ARCH = $(IMAGE)-$(ARCH)
+	IMAGE_ARCH = $(IMAGE)-$(ARCH)-$(NUMBEROFTENANTS)
 endif
 
 
 build: ## Builds the perf-sidecar-injector binary
-	dep ensure
-	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o perf-sidecar-injector .
+	./multi-tenants-json-generator.py
 
-image: ## Builds a Linux based image
+image: build ## Builds a Linux based image
 	docker build -t "$(IMAGE_ARCH):$(TAG)" .
 
 clean: ## Cleans up build artifacts
