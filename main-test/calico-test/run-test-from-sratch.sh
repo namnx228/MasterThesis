@@ -2,7 +2,7 @@ set -ex
 NUMOFTENANT=$(($(ls namespace/ | wc -l) - 1))
 for i in $(seq 1 $NUMOFTENANT)
 do
-  calicoctl apply -f pool/pools-${i}.yml
+  calicoctl apply -f pool/pools-${i}.yml | true
 done
 kubectl apply -f namespace/
 pushd .
