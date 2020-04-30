@@ -7,7 +7,7 @@ set -e
 # Thay the cai {i} = $i
 # Tao 1 file moi voi ten filename-$i.yml and print new content to.
 
-NUMOFTENANTS=2
+NUMOFTENANTS=4
 filelist=" \
   ../namespace/namespace.format \
   ../role/role-binding.format \

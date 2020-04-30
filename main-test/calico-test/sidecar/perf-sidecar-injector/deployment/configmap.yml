@@ -7,7 +7,7 @@ data:
     policy: enabled
     containers:
       - name: perf-sidecar
-        image: namnx228/k8s-multitenancy-sidecar-container-amd64-2:latest
+        image: namnx228/k8s-multitenancy-sidecar-container-amd64-4:latest
         imagePullPolicy: Always
         # stdin: true
         # tty: true
