@@ -10,7 +10,7 @@ do
   kubectl delete role test${i} -n test${i} | true
   # kubectl delete -f ../role/role-binding-${i}.yml | true
 done
-sleep 3
+sleep 10
 for i in $(seq 1 $NUMOFTENANT)
 do
   calicoctl apply -f ../pool/pools-${i}.yml | true
