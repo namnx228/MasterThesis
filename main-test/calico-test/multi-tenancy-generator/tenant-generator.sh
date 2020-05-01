@@ -27,6 +27,7 @@ do
   echo $directory
   pushd .
   cd ${directory}
+  ls 
   ls  grep -v $file | xargs rm
   popd
   for i in $(seq 1 ${NUMOFTENANTS})
