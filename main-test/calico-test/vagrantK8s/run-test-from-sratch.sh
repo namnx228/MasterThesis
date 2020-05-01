@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
 set -ex
 NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
+MAXNUMOFTENANTS=100
 
-for i in $(seq 1 $NUMOFTENANT)
+for i in  $(seq 1 $MAXNUMOFTENANTS)
 do
   calicoctl delete -f ../pool/pools-${i}.yml | true
-  sleep 3 # Wait for termination
+  kubectl delete -f ../namespace/namespace-${i}.yml | true
+  kubectl delete -f ../role/role-${i}.yml | true
+  kubectl delete -f ../role/role-binding-${i}.yml | true
+done
+sleep 3
+for i in $(seq 1 $NUMOFTENANT)
+do
   calicoctl apply -f ../pool/pools-${i}.yml | true
 done
-kubectl delete -f ../namespace/ | true
-sleep 10
+
 kubectl apply -f ../namespace/
 
 pushd .
@@ -24,6 +30,4 @@ popd
 # calicoctl delete ippool default-ipv4-ippool # Delete the default ippool, so it is possible to create and allocate IPs manually
 
 
-kubectl delete -f ../role/ | true
-sleep 10
 kubectl apply -f ../role/
