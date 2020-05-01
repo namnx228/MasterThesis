@@ -5,7 +5,7 @@ MAXNUMOFTENANTS=100
 NUMOFEXISTINGTENANTS=$(kubectl get ns | grep "test" -c)
 for i in  $(seq 1 $NUMOFEXISTINGTENANTS)
 do
-  calicoctl delete  pool${i}| true
+  calicoctl delete  ippool pool${i}| true
   kubectl delete ns test${i} | true
   kubectl delete role test${i} -n test${i} | true
   # kubectl delete -f ../role/role-binding-${i}.yml | true
