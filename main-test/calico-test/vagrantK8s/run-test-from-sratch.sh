@@ -5,9 +5,11 @@ NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
 for i in $(seq 1 $NUMOFTENANT)
 do
   calicoctl delete -f ../pool/pools-${i}.yml | true
+  sleep 3 # Wait for termination
   calicoctl apply -f ../pool/pools-${i}.yml | true
 done
 kubectl delete -f ../namespace/ | true
+sleep 10
 kubectl apply -f ../namespace/
 
 pushd .
@@ -23,4 +25,5 @@ popd
 
 
 kubectl delete -f ../role/ | true
+sleep 10
 kubectl apply -f ../role/
