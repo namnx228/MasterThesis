@@ -31,6 +31,8 @@ do
   echo pwd 1
   echo file1
   echo $file
+  echo basename
+  echo $(basename $file)
   pwd
   popd
   for i in $(seq 1 ${NUMOFTENANTS})
