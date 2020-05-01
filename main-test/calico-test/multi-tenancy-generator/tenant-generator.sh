@@ -24,7 +24,7 @@ do
   directory=$(dirname ${file})
   fileWithoutExtension="${file%.*}"
   # echo $file
-  # echo $directory
+  echo $directory
   pushd .
   cd ${directory}
   ls  grep -v $file | xargs rm
