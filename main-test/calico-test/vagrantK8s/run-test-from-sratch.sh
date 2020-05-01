@@ -31,3 +31,4 @@ popd
 
 
 kubectl apply -f ../role/
+kubectl apply -f ../role-binding/

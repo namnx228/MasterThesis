@@ -14,7 +14,7 @@ else
 fi
 filelist=" \
   ../namespace/namespace.format \
-  ../role/role-binding.format \
+  ../role-binding/role-binding.format \
   ../role/role.format \
   ../pool/pools.format \
 "
