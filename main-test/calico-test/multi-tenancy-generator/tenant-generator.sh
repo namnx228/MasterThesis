@@ -21,13 +21,14 @@ filelist=" \
 for file in ${filelist}
 do
   
-  # directory=$(dirname ${file})
+  directory=$(dirname ${file})
   fileWithoutExtension="${file%.*}"
   # echo $file
   # echo $directory
-  # pushd .
-  # cd ${directory}
-  ls $(dirname $file)| grep -v $file | xargs rm
+  pushd .
+  cd ${directory}
+  ls  grep -v $file | xargs rm
+  popd
   for i in $(seq 1 ${NUMOFTENANTS})
   do
     # cau lenh thay the + sinh file 
