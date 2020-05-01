@@ -29,6 +29,8 @@ do
   cd ${directory}
   ls |  grep -v $file | xargs rm
   echo pwd 1
+  echo file1
+  echo $file
   pwd
   popd
   for i in $(seq 1 ${NUMOFTENANTS})
