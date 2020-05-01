@@ -3,7 +3,7 @@ set -ex
 NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
 MAXNUMOFTENANTS=100
 
-EXISTNS=$(kubectl get ns | grep "test" -c)
+EXISTNS=$(kubectl get ns | grep "test" -c) | true
 if (( $EXISTNS > 0 ))
 then
   for i in  $(seq 1 $EXISTNS)
@@ -14,7 +14,7 @@ then
   done
 fi
 
-EXISTPOOL=$(calicoctl get ippool | grep pool -c)
+EXISTPOOL=$(calicoctl get ippool | grep pool -c) | true
 if (( $EXISTPOOL > 0 ))
 then
   for i in  $(seq 1 $EXISTPOOL)
@@ -23,7 +23,7 @@ then
   done
 fi
 
-EXISTROLE=$(kubectl get role --all-namespaces | grep "test" -c)
+EXISTROLE=$(kubectl get role --all-namespaces | grep "test" -c) | true
 if (( $EXISTROLE > 0 ))
 then
   for i in  $(seq 1 $EXISTROLE)
