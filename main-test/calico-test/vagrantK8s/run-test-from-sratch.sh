@@ -2,26 +2,35 @@
 set -ex
 NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
 MAXNUMOFTENANTS=100
-EXISTNS=$(kubectl get ns | grep "test" -c)
 
-for i in  $(seq 1 $EXISTNS)
-do
-  kubectl delete ns test${i} | true
-  kubectl delete role test${i} -n test${i} | true
-  # kubectl delete -f ../role/role-binding-${i}.yml | true
-done
+EXISTNS=$(kubectl get ns | grep "test" -c)
+if (( $EXISTNS > 0 ))
+then
+  for i in  $(seq 1 $EXISTNS)
+  do
+    kubectl delete ns test${i} | true
+    kubectl delete role test${i} -n test${i} | true
+    # kubectl delete -f ../role/role-binding-${i}.yml | true
+  done
+fi
 
 EXISTPOOL=$(calicoctl get ippool | grep pool -c)
-for i in  $(seq 1 $EXISTPOOL)
-do
-  calicoctl delete  ippool pool${i}| true
-done
+if (( $EXISTPOOL > 0 ))
+then
+  for i in  $(seq 1 $EXISTPOOL)
+  do
+    calicoctl delete  ippool pool${i}| true
+  done
+fi
 
 EXISTROLE=$(kubectl get role --all-namespaces | grep "test" -c)
-for i in  $(seq 1 $EXISTROLE)
-do
-  kubectl delete role test${i} -n test${i} | true
-done
+if (( $EXISTROLE > 0 ))
+then
+  for i in  $(seq 1 $EXISTROLE)
+  do
+    kubectl delete role test${i} -n test${i} | true
+  done
+fi
 
 sleep 10
 
