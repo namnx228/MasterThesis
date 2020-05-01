@@ -8,7 +8,7 @@ then
   yes Y | ./run-test-from-sratch.sh
   popd 
   
-  cd ../sidecar/perf-sidecar-injector/
+  cd ../sidecar/perf-sidecar-injector/sidecar-container/
   make release
 else
   echo "Require one paras: Number of tenants"
