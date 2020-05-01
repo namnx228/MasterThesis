@@ -2,8 +2,8 @@
 set -ex
 NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
 MAXNUMOFTENANTS=100
-
-for i in  $(seq 1 $MAXNUMOFTENANTS)
+NUMOFEXISTINGTENANTS=$(kubectl get ns | grep "test" -c)
+for i in  $(seq 1 $NUMOFEXISTINGTENANTS)
 do
   calicoctl delete  pool${i}| true
   kubectl delete ns test${i} | true
