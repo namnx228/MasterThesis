@@ -23,27 +23,18 @@ do
   
   directory=$(dirname ${file})
   fileWithoutExtension="${file%.*}"
-  # echo $file
-  echo $directory
+  fileWithoutPath=$(basename ${file})
   pushd .
   cd ${directory}
-  ls |  grep -v $(basename $file) | xargs rm
-  echo pwd 1
-  echo file1
-  echo $file
-  echo basename
-  echo $(basename $file)
-  pwd
-  popd
+  ls |  grep -v $fileWithoutPath | xargs rm
+
   for i in $(seq 1 ${NUMOFTENANTS})
   do
     # cau lenh thay the + sinh file 
-    echo pwd
-    pwd
-    sed -e "s|\${i}|${i}|g" ${file} > ${fileWithoutExtension}-${i}.yml
+    sed -e "s|\${i}|${i}|g" ${fileWithoutPath} > ${fileWithoutExtension}-${i}.yml
   done
 
-  # popd
+  popd
 done
 
 #------------------------------------
