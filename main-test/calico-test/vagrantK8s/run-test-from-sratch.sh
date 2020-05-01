@@ -36,6 +36,11 @@ sleep 10
 
 kubectl apply -f ../namespace/
 
+for i in $(seq 1 ${NUMOFTENANT})
+do
+  calicoctl apply -f ../pool/pools-${i}.yml
+done
+
 pushd .
 cd user/
 for i in $(seq 1 ${NUMOFTENANT} )
