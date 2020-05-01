@@ -5,10 +5,10 @@ MAXNUMOFTENANTS=100
 
 for i in  $(seq 1 $MAXNUMOFTENANTS)
 do
-  calicoctl delete -f ../pool/pools-${i}.yml | true
-  kubectl delete -f ../namespace/namespace-${i}.yml | true
-  kubectl delete -f ../role/role-${i}.yml | true
-  kubectl delete -f ../role/role-binding-${i}.yml | true
+  calicoctl delete  pool${i}| true
+  kubectl delete ns test${i} | true
+  kubectl delete role test${i} -n test${i} | true
+  # kubectl delete -f ../role/role-binding-${i}.yml | true
 done
 sleep 3
 for i in $(seq 1 $NUMOFTENANT)
