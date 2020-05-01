@@ -26,7 +26,10 @@ do
   fileWithoutPath=$(basename ${file})
   pushd .
   cd ${directory}
-  ls |  grep -v $fileWithoutPath | xargs rm
+  # ls |  grep -v $fileWithoutPath | xargs rm
+  cp $fileWithoutPath /tmp/
+  rm *
+  mv /tmp/$fileWithoutPath .
 
   for i in $(seq 1 ${NUMOFTENANTS})
   do
