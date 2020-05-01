@@ -32,6 +32,8 @@ do
   for i in $(seq 1 ${NUMOFTENANTS})
   do
     # cau lenh thay the + sinh file 
+    echo pwd
+    pwd
     sed -e "s|\${i}|${i}|g" ${file} > ${fileWithoutExtension}-${i}.yml
   done
 
