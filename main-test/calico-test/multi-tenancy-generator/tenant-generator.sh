@@ -6,8 +6,12 @@ set -e
 # Get cai dir cua no
 # Thay the cai {i} = $i
 # Tao 1 file moi voi ten filename-$i.yml and print new content to.
-
-NUMOFTENANTS=2
+if (( $# > 0 ))
+then
+  NUMOFTENANTS=$1
+else
+  NUMOFTENANTS=2
+fi
 filelist=" \
   ../namespace/namespace.format \
   ../role/role-binding.format \
