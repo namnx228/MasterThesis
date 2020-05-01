@@ -27,7 +27,7 @@ do
   echo $directory
   pushd .
   cd ${directory}
-  ls |  grep -v $file | xargs rm
+  ls |  grep -v $(basename $file) | xargs rm
   echo pwd 1
   echo file1
   echo $file
