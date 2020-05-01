@@ -3,16 +3,16 @@
 if (( $# > 0 )) 
 then
   ./tenant-generator.sh $1
+  pushd .
+  cd ../vagrantK8s/
+  yes Y | ./run-test-from-sratch.sh
+  popd 
+  
+  cd ../sidecar/perf-sidecar-injector/
+  make release
 else
-  ./tenant-generator.sh # By default: 2 tenants
+  echo "Require one paras: Number of tenants"
 fi
 
-pushd .
-cd ../vagrantK8s/
-yes Y | ./run-test-from-sratch.sh
-popd 
-
-cd ../sidecar/perf-sidecar-injector/
-make release
 
 
