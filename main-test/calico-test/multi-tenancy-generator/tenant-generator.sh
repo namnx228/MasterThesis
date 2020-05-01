@@ -27,6 +27,7 @@ do
   # echo $directory
   # pushd .
   # cd ${directory}
+  ls $(dirname $file)| grep -v $file | xargs rm
   for i in $(seq 1 ${NUMOFTENANTS})
   do
     # cau lenh thay the + sinh file 
