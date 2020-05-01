@@ -7,7 +7,7 @@ do
   calicoctl delete -f ../pool/pools-${i}.yml | true
   calicoctl apply -f ../pool/pools-${i}.yml | true
 done
-kubectl delete -f ../namespace/
+kubectl delete -f ../namespace/ | true
 kubectl apply -f ../namespace/
 
 pushd .
@@ -15,12 +15,12 @@ cd user/
 for i in $(seq 1 ${NUMOFTENANT} )
 do
   ./user_creation_flags.sh -u "test$i" -g O -d 500
-  kubectl annotate ns "test$i" "cni.projectcalico.org/ipv4pools"='["pool${i}"]'  --overwrite
+  kubectl annotate ns "test$i" "cni.projectcalico.org/ipv4pools"='["pool${i}"]'  --overwrite  | true
 done
 popd
 # Assign IP ranges
 # calicoctl delete ippool default-ipv4-ippool # Delete the default ippool, so it is possible to create and allocate IPs manually
 
 
-kubectl delete -f ../role/
+kubectl delete -f ../role/ | true
 kubectl apply -f ../role/
