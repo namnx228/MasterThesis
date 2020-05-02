@@ -5,10 +5,10 @@ if (( ${numberofSidecarSecret} > 0 ))
 then
   kubectl delete secret perf-sidecar-injector-webhook-certs
 
-  kubectl delete -f deployment/configmap.yaml
-  kubectl delete -f deployment/deployment.yaml
-  kubectl delete -f deployment/service.yaml
-  kubectl delete -f deployment/mutatingwebhook-ca-bundle.yaml
+  kubectl delete -f deployment/configmap.yaml || true
+  kubectl delete -f deployment/deployment.yaml || true
+  kubectl delete -f deployment/service.yaml || true
+  kubectl delete -f deployment/mutatingwebhook-ca-bundle.yaml || true
 fi
 
 ./deployment/webhook-create-signed-cert.sh \
