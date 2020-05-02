@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -ex
 if (( $# > 0 )) 
 then
   ./tenant-generator.sh $1
