@@ -1,3 +1,4 @@
+cd ./perf-sidecar-injector/
 numberofSidecarSecret=$(kubectl get secret | grep sidecar -c)
 if (( ${numberofSidecarSecret} > 0 )) 
 then

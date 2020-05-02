@@ -3,11 +3,7 @@
 if (( $# > 0 )) 
 then
   ./tenant-generator.sh $1
-  pushd .
-  cd ../vagrantK8s/
-  yes Y | ./run-test-from-sratch.sh
-  popd 
-  
+  yes Y | ./interact-with-k8s.sh
   cd ../sidecar/perf-sidecar-injector/sidecar-container/
   make release
 else
