@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-set -e
+set -ex
 # set -x
 # Get list of file 
 # Xu ly tung file:
@@ -22,8 +22,8 @@ for file in ${filelist}
 do
   
   directory=$(dirname ${file})
-  fileWithoutExtension="${file%.*}"
   fileWithoutPath=$(basename ${file})
+  fileWithoutExtension="${fileWithoutPath%.*}"
   pushd .
   cd ${directory}
   # ls |  grep -v $fileWithoutPath | xargs rm
@@ -43,6 +43,9 @@ done
 #------------------------------------
 # Only Generate one file
 file="../sidecar/perf-sidecar-injector/deployment/configmap.format"
-fileWithoutExtension="${file%.*}"
-sed -e "s|\${i}|${NUMOFTENANTS}|g" ${file} > ${fileWithoutExtension}.yaml
+echo "DEBUG: "
+pwd
+fileWithoutPath=$(basename ${file})
+fileWithoutExtension="${fileWithoutPath%.*}"
+sed -e "s|\${i}|${NUMOFTENANTS}|g" ${fileWithoutPath} > ${fileWithoutExtension}.yaml
 
