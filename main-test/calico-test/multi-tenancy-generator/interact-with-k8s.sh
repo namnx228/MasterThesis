@@ -57,5 +57,4 @@ kubectl apply -f ../role/
 kubectl apply -f ../role-binding/
 
 # Deploy sidecar injector
-cd ../sidecar/
-./run-deployment.sh
+./deploy-sidecar-injector.sh
