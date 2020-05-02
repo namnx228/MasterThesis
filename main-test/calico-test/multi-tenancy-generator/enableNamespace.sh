@@ -1,6 +1,6 @@
-NUMOFDISABLEDTENANTS=${$1:-1}
+NUMOFDISABLEDTENANTS=${1:-1}
 for i in $(seq 1 $NUMOFDISABLEDTENANTS)
 do
-  kubectl label namespace test${i} sidecar-injector=enabled
+  kubectl label namespace test${i} sidecar-injector=enabled --overwrite
 done
 
