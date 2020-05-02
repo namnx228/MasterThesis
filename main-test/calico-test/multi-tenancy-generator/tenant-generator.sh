@@ -44,5 +44,5 @@ done
 # Only Generate one file
 file="../sidecar/perf-sidecar-injector/deployment/configmap.format"
 fileWithoutExtension="${file%.*}"
-sed -e "s|\${i}|${NUMOFTENANTS}|g" ${file} > ${fileWithoutExtension}.yml
+sed -e "s|\${i}|${NUMOFTENANTS}|g" ${file} > ${fileWithoutExtension}.yaml
 
