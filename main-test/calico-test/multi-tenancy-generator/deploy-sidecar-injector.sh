@@ -1,6 +1,6 @@
 set -ex
 cd ../sidecar/perf-sidecar-injector/
-numberofSidecarSecret=$(kubectl get secret | grep sidecar -c)
+numberofSidecarSecret=$(kubectl get secret | grep sidecar -c) || true
 if (( ${numberofSidecarSecret} > 0 )) 
 then
   kubectl delete secret perf-sidecar-injector-webhook-certs
