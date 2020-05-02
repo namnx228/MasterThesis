@@ -43,9 +43,12 @@ done
 #------------------------------------
 # Only Generate one file
 file="../sidecar/perf-sidecar-injector/deployment/configmap.format"
-echo "DEBUG: "
-pwd
 fileWithoutPath=$(basename ${file})
 fileWithoutExtension="${fileWithoutPath%.*}"
+pushd .
+cd $(dirname ${file})
+echo "DEBUG: "
+pwd
 sed -e "s|\${i}|${NUMOFTENANTS}|g" ${fileWithoutPath} > ${fileWithoutExtension}.yaml
+popd
 
