@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 shopt -s expand_aliases
+alias kubectl="kubectl -n ${USER}"
 REPLICAS=${1:-2} # default number of pods is 2
 kubectl delete deployment test1 || true
 cat <<SHELL | kubectl apply -f -
