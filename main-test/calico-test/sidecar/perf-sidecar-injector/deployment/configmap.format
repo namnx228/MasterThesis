@@ -8,7 +8,8 @@ data:
     containers:
       - name: perf-sidecar
         image: namnx228/k8s-multitenancy-sidecar-container-amd64-${i}:latest
-        imagePullPolicy: Always
+        # imagePullPolicy: Always # For Development
+        imagePullPolicy: IfNotPresent  # For Evaluation
         # stdin: true
         # tty: true
         securityContext:
