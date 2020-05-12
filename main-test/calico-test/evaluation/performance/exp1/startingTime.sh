@@ -2,7 +2,7 @@
 set -ex
 REPLICAS=${1:-2} # default number of pods is 2
 kubectl delete deployment test1 || true
-cat <<SHELL | kubectl apply -f -
+cat <<SHELL | kubectl apply -f 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
