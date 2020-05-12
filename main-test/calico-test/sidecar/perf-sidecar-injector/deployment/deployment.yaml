@@ -17,7 +17,9 @@ spec:
       containers:
         - name: perf-sidecar-injector
           image: namnx228/perf-sidecar-injector-amd64:latest
-          imagePullPolicy: Always
+          # imagePullPolicy: Always # For development
+
+          imagePullPolicy: IfNotPresent # For evaluation
           args:
             - -sidecarCfgFile=/etc/webhook/config/sidecarconfig.yaml
             - -tlsCertFile=/etc/webhook/certs/cert.pem
