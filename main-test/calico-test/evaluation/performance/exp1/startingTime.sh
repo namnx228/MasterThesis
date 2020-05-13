@@ -2,13 +2,14 @@
 set -ex
 shopt -s expand_aliases
 alias kubectl="kubectl -n ${USER}"
+DEPLOYMENT_NAME=${Experienment1}
 REPLICAS=${1:-2} # default number of pods is 2
-kubectl delete deployment test1 || true
+kubectl delete deployment ${DEPLOYMENT_NAME} || true
 cat <<SHELL | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test1
+  name: ${DEPLOYMENT_NAME}
   labels:
     app: nginx
 spec:
@@ -27,3 +28,19 @@ spec:
         ports:
         - containerPort: 80
 SHELL
+
+checkDeploymentAvailable (){
+  kubectl get deployments.apps ${DEPLOYMENT_NAME} -o jsonpath="{.status.replicas}"
+}
+
+loopUntilFoundTime(){
+  while true
+  do
+    if [[ checkDeploymentAvailable() == $REPLICAS ]]
+    then
+      break
+    fi
+  done
+}
+
+time loopUntilFoundTime()
