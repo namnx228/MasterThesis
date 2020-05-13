@@ -36,11 +36,11 @@ checkDeploymentAvailable (){
 loopUntilFoundTime(){
   while true
   do
-    if [[ checkDeploymentAvailable() == $REPLICAS ]]
+    if [[ checkDeploymentAvailable == $REPLICAS ]]
     then
       break
     fi
   done
 }
 
-time loopUntilFoundTime()
+time loopUntilFoundTime
