@@ -25,8 +25,8 @@ loopUntilFoundTime(){
 # FUnction: input: number of pods
 runTestOneTime() {
   REPLICAS=${1:-2} # default number of pods is 2
-  kubectl delete deployment ${DEPLOYMENT_NAME} || true 2>1 /dev/null
-  cat <<SHELL | kubectl apply -f - 2>1 /dev/null
+  kubectl delete deployment ${DEPLOYMENT_NAME} || true 2>&1 /dev/null
+  cat <<SHELL | kubectl apply -f - 2>&1 /dev/null
   apiVersion: apps/v1
   kind: Deployment
   metadata:
