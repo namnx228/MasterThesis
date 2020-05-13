@@ -48,9 +48,9 @@ runTestOneTime() {
           ports:
           - containerPort: 80
 SHELL
-  set +x
+  # set +x
   time loopUntilFoundTime   
-  set -x
+  # set -x
 }
 
 run30Time(){
