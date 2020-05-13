@@ -2,7 +2,7 @@
 set -ex
 shopt -s expand_aliases
 alias kubectl="kubectl -n ${USER}"
-DEPLOYMENT_NAME="Experienment1"
+DEPLOYMENT_NAME="experienment1"
 REPLICAS=${1:-2} # default number of pods is 2
 kubectl delete deployment ${DEPLOYMENT_NAME} || true
 cat <<SHELL | kubectl apply -f -
