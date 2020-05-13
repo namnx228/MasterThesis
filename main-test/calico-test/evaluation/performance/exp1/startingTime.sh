@@ -36,7 +36,8 @@ checkDeploymentAvailable (){
 loopUntilFoundTime(){
   while true
   do
-    if [[ checkDeploymentAvailable == $REPLICAS ]]
+    isAvailable=$(checkDeploymentAvailable)
+    if [[ ${isAvailable} == $REPLICAS ]]
     then
       break
     fi
