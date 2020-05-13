@@ -11,7 +11,8 @@ checkDeploymentAvailable (){
 }
 
 loopUntilFoundTime(){
-  while true do
+  while true 
+  do
     isAvailable=$(checkDeploymentAvailable)
     if [[ ${isAvailable} == $REPLICAS ]]
     then
@@ -48,9 +49,9 @@ runTestOneTime() {
           ports:
           - containerPort: 80
 SHELL
-  # set +x
-  time loopUntilFoundTime   
-  # set -x
+  set +x
+  echo $( ( time loopUntilFoundTime ) 2>&1)
+  set -x
 }
 
 run30Time(){
