@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -ex
 shopt -s expand_aliases
 alias kubectl="kubectl -n ${USER}"
 DEPLOYMENT_NAME="experienment1"
