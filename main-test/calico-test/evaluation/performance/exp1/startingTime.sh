@@ -53,8 +53,8 @@ SHELL
 }
 
 run30Time(){
-  let sum=0
-  let thisTime=0
+  let sum=0 || true
+  let thisTime=0 || true
   for i in $(seq 1 30)
   do
   # use bash only
