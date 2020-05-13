@@ -49,7 +49,7 @@ runTestOneTime() {
           - containerPort: 80
 SHELL
   set +x
-  echo $( ( time loopUntilFoundTime  ) 2>&1)
+  time loopUntilFoundTime   
   set -x
 }
 
