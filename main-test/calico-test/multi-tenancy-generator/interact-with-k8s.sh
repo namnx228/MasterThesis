@@ -12,7 +12,7 @@ then
   #   kubectl delete ns test${i} || true
   #   # kubectl delete -f ../role/role-binding-${i}.yml | true
   # done
-  kubectl delete --all ns
+  kubectl delete --all ns || true
 fi
 
 EXISTPOOL=$(calicoctl get ippool | grep pool -c) || true
