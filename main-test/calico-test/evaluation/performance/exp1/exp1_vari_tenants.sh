@@ -21,7 +21,7 @@ for j in ${NUM_OF_TENANTS_LIST[@]}
 do
   pushd .
     cd ../../../multi-tenancy-generator/
-    ./tenant-generator.sh $j
+    ./all-in-one-deployment.sh $j
   popd
 
   echo $j >> ${result_file}
