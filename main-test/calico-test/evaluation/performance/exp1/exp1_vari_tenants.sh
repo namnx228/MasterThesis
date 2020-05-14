@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 if (( $# < 1  ))
 then
   echo "Request the number of tenants"
