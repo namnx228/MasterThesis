@@ -64,6 +64,7 @@ run30Time(){
     thisTime=$(TIMEFORMAT=%R runTestOneTime ${REPLICAS_PARAS})
     sum=$(python -c "print ${sum} + ${thisTime}")
   done
+  kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
   result=$(python -c "print ${sum} / 30.0")
   echo ${result}
 }
