@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
-MAXNUMOFTENANTS=100
+MAXNUMOFTENANTS=1024
 
 EXISTNS=$(kubectl get ns | grep "test" -c) || true
 echo
