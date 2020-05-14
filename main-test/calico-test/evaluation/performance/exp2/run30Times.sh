@@ -13,8 +13,7 @@ checkDeploymentAvailable (){
 loopUntilAvailabe()
 {
   while true 
-  do
-    isAvailable=$(checkDeploymentAvailable)
+  do isAvailable=$(checkDeploymentAvailable)
     if [[ ${isAvailable} == $REPLICAS ]]
     then
       break
@@ -66,7 +65,7 @@ SHELL
 
   echo "DEBUG: $(whoami)"
   loopUntilAvailabe > /dev/null
-  set +x
+  # set +x
   echo "DEBUG: $(whoami)"
   echo $( ( time waitUntilTerminationDone  ) 2>&1)
   set -x
