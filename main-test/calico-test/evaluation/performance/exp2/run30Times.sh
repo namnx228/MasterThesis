@@ -67,7 +67,8 @@ SHELL
   loopUntilAvailabe > /dev/null
   # set +x
   echo "DEBUG: $(whoami)"
-  echo $( ( time waitUntilTerminationDone  ) 2>&1)
+  # echo $( ( time waitUntilTerminationDone  ) 2>&1)
+  waitUntilTerminationDone  
   set -x
 }
 
