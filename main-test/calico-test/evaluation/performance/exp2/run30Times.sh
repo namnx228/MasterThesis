@@ -24,7 +24,6 @@ loopUntilAvailabe()
 
 waitUntilTerminationDone(){
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
-  echo "DEBUG: $(whoami)"
   while true
   do
     checkDone=$(kubectl get deployment)
@@ -67,6 +66,7 @@ SHELL
 
   loopUntilAvailabe > /dev/null
   set +x
+  echo "DEBUG: $(whoami)"
   echo $( ( time waitUntilTerminationDone  ) 2>&1)
   set -x
 }
