@@ -26,7 +26,7 @@ waitUntilTerminationDone(){
   while true
   do
     checkDone=$(kubectl get deployment)
-    if [[ $checkDone == "*No resources found*" ]]
+    if [[ $checkDone == "" ]]
     then
       break
     fi
