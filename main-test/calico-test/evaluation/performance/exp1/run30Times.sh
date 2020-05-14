@@ -26,6 +26,7 @@ loopUntilFoundTime(){
 runTestOneTime() {
   REPLICAS=${1:-2} # default number of pods is 2
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
+  sleep 3 # Wait until termination is completely done
   cat <<SHELL | kubectl apply -f - > /dev/null
   apiVersion: apps/v1
   kind: Deployment
@@ -59,8 +60,6 @@ run30Time(){
   let thisTime=0 || true
   for i in $(seq 1 30)
   do
-  # use bash only
-    # runTestOneTime ${REPLICAS_PARAS}
     thisTime=$(TIMEFORMAT=%R runTestOneTime ${REPLICAS_PARAS})
     sum=$(python -c "print ${sum} + ${thisTime}")
   done
