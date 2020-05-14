@@ -10,7 +10,6 @@ NUM_OF_TENANTS_LIST=(2 4 8 16 32 64 128 1024)
 today=$(date +%d.%m-%T)
 
 user=${1:-"test1"}
-kubectl label namespace test1 sidecar-injector=disabled --overwrite # Ensure that test1 is in insecure situation 
 if [[ ${user} == "test1"  ]]
 then
   secure="insecure"
@@ -23,6 +22,7 @@ do
   pushd .
     cd ../../../multi-tenancy-generator/
     ./all-in-one-deployment.sh $j
+    kubectl label namespace test1 sidecar-injector=disabled --overwrite # Ensure that test1 is in insecure situation 
   popd
 
   echo $j >> ${result_file}
