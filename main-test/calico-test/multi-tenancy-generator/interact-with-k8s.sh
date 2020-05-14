@@ -7,11 +7,12 @@ EXISTNS=$(kubectl get ns | grep "test" -c) || true
 echo
 if (( $EXISTNS > 0 ))
 then
-  for i in  $(seq 1 $EXISTNS)
-  do
-    kubectl delete ns test${i} || true
-    # kubectl delete -f ../role/role-binding-${i}.yml | true
-  done
+  # for i in  $(seq 1 $EXISTNS)
+  # do
+  #   kubectl delete ns test${i} || true
+  #   # kubectl delete -f ../role/role-binding-${i}.yml | true
+  # done
+  kubectl delete --all ns
 fi
 
 EXISTPOOL=$(calicoctl get ippool | grep pool -c) || true
@@ -23,14 +24,14 @@ then
   done
 fi
 
-EXISTROLE=$(kubectl get role --all-namespaces | grep "test" -c) || true
-if (( $EXISTROLE > 0 ))
-then
-  for i in  $(seq 1 $EXISTROLE)
-  do
-    kubectl delete role test${i} -n test${i} || true
-  done
-fi
+# EXISTROLE=$(kubectl get role --all-namespaces | grep "test" -c) || true
+# if (( $EXISTROLE > 0 ))
+# then
+#   for i in  $(seq 1 $EXISTROLE)
+#   do
+#     kubectl delete role test${i} -n test${i} || true
+#   done
+# fi
 
 sleep 10
 
