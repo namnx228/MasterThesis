@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 REPLICAS_LIST=(2 5 10 15 20 25 30 35 40)
 today=$(date +%d.%m-%T)
 user=${1:-"test1"}
