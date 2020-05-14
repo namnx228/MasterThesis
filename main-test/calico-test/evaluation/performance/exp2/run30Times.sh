@@ -25,7 +25,7 @@ waitUntilTerminationDone(){
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
   while true
   do
-    checkDone=$(kubectl get deployment) 2> /dev/null
+    checkDone=$(kubectl get deployment 2> /dev/null )
     if [[ $checkDone == "" ]]
     then
       break
