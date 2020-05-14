@@ -63,12 +63,12 @@ runTestOneTime() {
           - containerPort: 80
 SHELL
 
-  echo "DEBUG: $(whoami)"
+  # echo "DEBUG: $(whoami)"
   loopUntilAvailabe > /dev/null
-  # set +x
-  echo "DEBUG: $(whoami)"
-  # echo $( ( time waitUntilTerminationDone  ) 2>&1)
-  waitUntilTerminationDone  
+  set +x
+  # echo "DEBUG: $(whoami)"
+  echo $( ( time waitUntilTerminationDone  ) 2>&1)
+  # waitUntilTerminationDone  
   set -x
 }
 
