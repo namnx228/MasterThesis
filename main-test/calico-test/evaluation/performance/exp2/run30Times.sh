@@ -64,6 +64,7 @@ runTestOneTime() {
           - containerPort: 80
 SHELL
 
+  echo "DEBUG: $(whoami)"
   loopUntilAvailabe > /dev/null
   set +x
   echo "DEBUG: $(whoami)"
