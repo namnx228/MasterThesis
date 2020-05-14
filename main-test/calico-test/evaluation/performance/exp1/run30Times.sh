@@ -58,8 +58,12 @@ SHELL
 run30Time(){
   let sum=0 || true
   let thisTime=0 || true
-  for i in $(seq 1 30)
+  for i in $(seq 1 31)
   do
+    if (( $i == 1 ))
+    then
+      continue
+    fi
     thisTime=$(TIMEFORMAT=%R runTestOneTime ${REPLICAS_PARAS})
     sum=$(python -c "print ${sum} + ${thisTime}")
   done
