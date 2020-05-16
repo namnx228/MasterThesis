@@ -19,7 +19,6 @@ checkServerPodAvailable (){
 
 loopUntilAvailabe()
 {
-  deployClient > /dev/null
   while true 
   do
     isServerAvailable=$(checkServerPodAvailable)
@@ -28,7 +27,7 @@ loopUntilAvailabe()
       break
     fi
   done
-
+  deployClient > /dev/null
   while true 
   do 
     isClientAvailable=$(checkClientDeploymentAvailable)
