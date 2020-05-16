@@ -9,20 +9,48 @@ REPLICAS_PARAS=${1:-1} # Now: 1
 
 
 #---------------------------------------
-checkDeploymentAvailable (){
-  kubectl get deployments.apps ${CLIENT_DEPLOYMENT} -o jsonpath="{.status.replicas}"
-}
-
 loopUntilAvailabe()
 {
   while true 
-  do isAvailable=$(checkDeploymentAvailable)
-    if [[ ${isAvailable} == $REPLICAS ]]
+  do 
+    deployClient
+    if (( $(kubectl logs ${SERVER_POD} | grep sec -c) > 0 ))
     then
+      echo $(kubectl logs ${SERVER_POD} | grep sec | awk 'print $6')
       break
     fi
   done
 }
+deployClient(){
+  kubectl delete deployment ${CLIENT_DEPLOYMENT}  > /dev/null || true
+  cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ${CLIENT_DEPLOYMENT}
+      labels:
+        app: ${CLIENT_DEPLOYMENT}
+    spec:
+      replicas: ${REPLICAS}
+      selector:
+        matchLabels:
+          app: ${CLIENT_DEPLOYMENT}
+      template:
+        metadata:
+          labels:
+            app: ${CLIENT_DEPLOYMENT}
+        spec:
+          containers:
+          - name: ${CLIENT_DEPLOYMENT}
+            image: namnx228/k8s-multitenancy-iperf-amd64
+            command:
+              - bash
+              - "-c"
+              - "iperf -c ${SERVICE} -t 2 -p 5000 && sleep 3600"
+            imagePullPolicy: IfNotPresent
+SHELL
+}
+#----------------------------------------
 # FUnction: input: number of pods
 runTestOneTime() {
   # Delete old thing
@@ -31,7 +59,6 @@ runTestOneTime() {
   # Collect result: How ?
 
   REPLICAS=${1:-1} # Now: 1
-  kubectl delete deployment ${CLIENT_DEPLOYMENT}  > /dev/null || true
   kubectl delete pod ${SERVER_POD}  > /dev/null || true
   kubectl delete svc ${SERVICE}  > /dev/null || true
   cat <<SHELL | kubectl apply -f - > /dev/null # Deploy server pod
@@ -69,37 +96,9 @@ SHELL
           targetPort: 5000
 SHELL
 
-  cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: ${CLIENT_DEPLOYMENT}
-      labels:
-        app: ${CLIENT_DEPLOYMENT}
-    spec:
-      replicas: ${REPLICAS}
-      selector:
-        matchLabels:
-          app: ${CLIENT_DEPLOYMENT}
-      template:
-        metadata:
-          labels:
-            app: ${CLIENT_DEPLOYMENT}
-        spec:
-          containers:
-          - name: ${CLIENT_DEPLOYMENT}
-            image: namnx228/k8s-multitenancy-iperf-amd64
-            command:
-              - bash
-              - "-c"
-              - "iperf -c ${SERVICE} -t 2 -p 5000 && sleep 3600"
-            imagePullPolicy: IfNotPresent
-SHELL
-  sleep 3 # Wait until termination is completely done
-
-  # kubectl log ... grep sec awk $6 
-  loopUntilAvailabe > /dev/null
-  echo $(kubectl logs ${SERVER_POD} | grep sec | awk 'print $6')
+  # deployClient # Deploy in the loopUntilAvailable
+  sleep 3 # Wait until server deployment is done
+  echo $(loopUntilAvailabe)
 }
 
 run30Time(){
