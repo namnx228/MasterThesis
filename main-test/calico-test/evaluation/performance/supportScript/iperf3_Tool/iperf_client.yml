@@ -18,11 +18,11 @@ spec:
       - name: iperf-client
         image: namnx228/k8s-multitenancy-iperf-amd64
         command:
-          - iperf
-          - "-c iperf-service"
-          - "-t 2"
-          - "-p 5000"
-          - "&&"
+          # - iperf
+          # - "-c iperf-service"
+          # - "-t 2"
+          # - "-p 5000"
+          # - "&&"
           - sleep
           - "3600"
         imagePullPolicy: IfNotPresent
