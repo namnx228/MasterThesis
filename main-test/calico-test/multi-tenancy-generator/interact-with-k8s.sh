@@ -15,7 +15,7 @@ then
   set +e
   for i in $(kubectl get ns | grep test | awk '{ print $1 }')
   do
-    kubectl delete ns $i
+    kubectl delete ns $i &
   done
   while true
   do
