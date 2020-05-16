@@ -1,4 +1,4 @@
-IMAGE ?= namnx228/k8s-multitenancy-iperf3
+IMAGE ?= namnx228/k8s-multitenancy-iperf
 # TAG ?= $(shell git describe --tags --always)
 TAG ?= v1
 # RELEASE_TAG := v$(shell cat VERSION)
