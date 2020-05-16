@@ -43,8 +43,24 @@ loopUntilAvailabe()
     fi
   done
 }
+
+checkClientTerminated (){
+  kubectl get deployments.apps ${CLIENT_DEPLOYMENT}  2> /dev/null
+}
+
+loopUntilCLientTerminated(){
+  while true
+  do
+    if [[ $(checkClientTerminated) == "" ]]
+    then
+      break
+    fi
+  done
+}
+
 deployClient(){
   kubectl delete deployment ${CLIENT_DEPLOYMENT}  > /dev/null || true
+  loopUntilCLientTerminated > /dev/null
   cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
     apiVersion: apps/v1
     kind: Deployment
