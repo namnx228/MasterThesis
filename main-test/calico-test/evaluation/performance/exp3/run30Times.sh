@@ -5,6 +5,7 @@ alias kubectl="kubectl -n ${USER}"
 SERVER_POD="iperf-server"
 CLIENT_DEPLOYMENT="iperf-client"
 SERVICE="iperf-service"
+TESTING_TIME=2
 REPLICAS_PARAS=${1:-1} # Now: 1
 
 
@@ -27,7 +28,7 @@ loopUntilAvailabe()
       break
     fi
   done
-  sleep 5 # Make sure that server and service are ready before client deployment
+  # sleep 5 # Make sure that server and service are ready before client deployment
   deployClient > /dev/null
   while true 
   do 
@@ -35,11 +36,14 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable} == $REPLICAS ]]
     then
+      sleep $(python -c "print $TESTING_TIME + 2") # Test time + 2
       server_log=$(kubectl logs ${SERVER_POD} | grep sec )
       if [[ ${server_log} != ""  ]]
       then
         echo $(echo ${server_log} | awk '{print $8}')
         break
+      else
+        deployClient > /dev/null
       fi
     fi
   done
@@ -85,7 +89,7 @@ deployClient(){
             command:
               - bash
               - "-c"
-              - "iperf -c ${SERVICE} -t 2 -p 5000 && sleep 3600"
+              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -p 5000 && sleep 3600"
             imagePullPolicy: IfNotPresent
 SHELL
 }
