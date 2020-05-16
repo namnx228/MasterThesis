@@ -9,12 +9,17 @@ REPLICAS_PARAS=${1:-1} # Now: 1
 
 
 #---------------------------------------
+checkClientDeploymentAvailable (){
+  kubectl get deployments.apps ${CLIENT_DEPLOYMENT} -o jsonpath="{.status.replicas}"
+}
+
 loopUntilAvailabe()
 {
+  deployClient
   while true 
   do 
-    deployClient
-    if (( $(kubectl logs ${SERVER_POD} | grep sec -c) > 0 ))
+    isAvailable=$(checkClientDeploymentAvailable)
+    if [[ ${isAvailable} == $REPLICAS ]]
     then
       echo $(kubectl logs ${SERVER_POD} | grep sec | awk 'print $6')
       break
