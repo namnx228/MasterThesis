@@ -5,7 +5,7 @@ metadata:
   labels:
     app: iperf-client
 spec:
-  replicas: 10
+  replicas: 1
   selector:
     matchLabels:
       app: iperf-client
@@ -17,10 +17,10 @@ spec:
       containers:
       - name: iperf-client
         image: namnx228/k8s-multitenancy-iperf-amd64
-        command:
-          - iperf
-          - "-c iperf-service"
-          - "-t 2"
-          - "-p 5000"
+        # command:
+        #   - iperf
+        #   - "-c iperf-service"
+        #   - "-t 2"
+        #   - "-p 5000"
         imagePullPolicy: IfNotPresent
 
