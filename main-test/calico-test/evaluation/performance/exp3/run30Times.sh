@@ -35,9 +35,12 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable} == $REPLICAS ]]
     then
-      tmp=$(kubectl logs ${SERVER_POD} | grep sec )
-      echo $(echo $tmp | awk '{print $8}')
-      break
+      server_log=$(kubectl logs ${SERVER_POD} | grep sec )
+      if [[ ${server_log} == ""  ]]
+      then
+        echo $(echo ${server_log} | awk '{print $8}')
+        break
+      fi
     fi
   done
 }
@@ -69,7 +72,6 @@ deployClient(){
               - "iperf -c ${SERVICE} -t 2 -p 5000 && sleep 3600"
             imagePullPolicy: IfNotPresent
 SHELL
-    sleep 2
 }
 #----------------------------------------
 # FUnction: input: number of pods
