@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iperf-client
+  labels:
+    app: iperf-client
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: iperf-client
+  template:
+    metadata:
+      labels:
+        app: iperf-client
+    spec:
+      containers:
+      - name: iperf-client
+        image: namnx228/k8s-multitenancy-iperf-amd64
+        imagePullPolicy: IfNotPresent
+
