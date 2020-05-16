@@ -9,6 +9,20 @@ REPLICAS_PARAS=${1:-1} # Now: 1
 
 
 #---------------------------------------
+checkDeploymentAvailable (){
+  kubectl get deployments.apps ${CLIENT_DEPLOYMENT} -o jsonpath="{.status.replicas}"
+}
+
+loopUntilAvailabe()
+{
+  while true 
+  do isAvailable=$(checkDeploymentAvailable)
+    if [[ ${isAvailable} == $REPLICAS ]]
+    then
+      break
+    fi
+  done
+}
 # FUnction: input: number of pods
 runTestOneTime() {
   # Delete old thing
@@ -84,6 +98,7 @@ SHELL
   sleep 3 # Wait until termination is completely done
 
   # kubectl log ... grep sec awk $6 
+  loopUntilAvailabe > /dev/null
   echo $(kubectl logs ${SERVER_POD} | grep sec | awk 'print $6')
 }
 
