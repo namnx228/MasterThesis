@@ -5,7 +5,7 @@ metadata:
   name: test${i} 
 rules:
 - apiGroups: [""] # "" indicates the core API group
-  resources: ["pods", "networkpolicy", "services", "role", "rolebinding", "deployments", "node", "pods/attach", "pods/exec"]
+  resources: ["pods", "networkpolicy", "services", "role", "rolebinding", "deployments", "node", "pods/attach", "pods/exec", "pods/logs"]
   verbs: ["view", "create", "get", "watch", "list", "edit", "delete", "scale"]
 - apiGroups: [ "apps" ] # "" indicates the core API group
   resources: ["pods", "networkpolicy", "service", "role", "rolebinding", "deployments", "deployments/scale","node"]
