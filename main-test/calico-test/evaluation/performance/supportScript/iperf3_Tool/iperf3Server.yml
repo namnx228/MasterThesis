@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iperf3-server
+spec:
+  containers:
+  - name: iperf3-server
+    image: namnx228/k8s-multitenancy-iperf3-amd64
+    command:
+      - iperf3
+      - "-s"
+      - "-p 5000"
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+
