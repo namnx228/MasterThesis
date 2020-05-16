@@ -35,7 +35,7 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable} == $REPLICAS ]]
     then
-      echo $(kubectl logs ${SERVER_POD} | grep sec | awk '{print $6}')
+      echo $(kubectl logs ${SERVER_POD} | grep sec | awk '{print $8}')
       break
     fi
   done
@@ -130,7 +130,7 @@ run30Time(){
     then
       continue
     fi
-    thisTime=$(TIMEFORMAT=%R runTestOneTime ${REPLICAS_PARAS})
+    thisTime=$(runTestOneTime ${REPLICAS_PARAS})
     sum=$(python -c "print ${sum} + ${thisTime}")
   done
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
