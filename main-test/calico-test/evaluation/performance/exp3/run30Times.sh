@@ -49,6 +49,7 @@ deployClient(){
               - "iperf -c ${SERVICE} -t 2 -p 5000 && sleep 3600"
             imagePullPolicy: IfNotPresent
 SHELL
+    sleep 2
 }
 #----------------------------------------
 # FUnction: input: number of pods
