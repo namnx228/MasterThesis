@@ -13,13 +13,27 @@ checkClientDeploymentAvailable (){
   kubectl get deployments.apps ${CLIENT_DEPLOYMENT} -o jsonpath="{.status.replicas}"
 }
 
+checkServerPodAvailable (){
+  kubectl get pod ${SERVER_POD} | grep Running -c
+}
+
 loopUntilAvailabe()
 {
-  deployClient
+  deployClient > /dev/null
+  while true 
+  do
+    isServerAvailable=$(checkServerPodAvailable)
+    if (( ${isServerAvailable} !=  0 ))
+    then
+      break
+    fi
+  done
+
   while true 
   do 
-    isAvailable=$(checkClientDeploymentAvailable)
-    if [[ ${isAvailable} == $REPLICAS ]]
+    isClientAvailable=$(checkClientDeploymentAvailable)
+
+    if [[ ${isClientAvailable} == $REPLICAS ]]
     then
       echo $(kubectl logs ${SERVER_POD} | grep sec | awk '{print $6}')
       break
