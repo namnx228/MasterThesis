@@ -7,7 +7,7 @@ spec:
   - name: iperf3-server
     image: namnx228/k8s-multitenancy-iperf3-amd64
     command:
-      - iperf3
+      - iperf
       - "-s"
       - "-p 5000"
     imagePullPolicy: IfNotPresent
