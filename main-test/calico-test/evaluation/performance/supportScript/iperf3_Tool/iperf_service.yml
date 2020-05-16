@@ -4,7 +4,7 @@ metadata:
   name: iperf-service
 spec:
   selector:
-    app: iperf-service
+    app: iperf-server
   ports:
     - protocol: TCP
       port: 5000
