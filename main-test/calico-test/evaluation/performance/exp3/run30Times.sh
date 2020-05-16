@@ -27,6 +27,7 @@ loopUntilAvailabe()
       break
     fi
   done
+  sleep 5 # Make sure that server and service are ready before client deployment
   deployClient > /dev/null
   while true 
   do 
