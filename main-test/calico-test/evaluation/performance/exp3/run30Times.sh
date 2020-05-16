@@ -36,7 +36,7 @@ loopUntilAvailabe()
     if [[ ${isClientAvailable} == $REPLICAS ]]
     then
       server_log=$(kubectl logs ${SERVER_POD} | grep sec )
-      if [[ ${server_log} == ""  ]]
+      if [[ ${server_log} != ""  ]]
       then
         echo $(echo ${server_log} | awk '{print $8}')
         break
