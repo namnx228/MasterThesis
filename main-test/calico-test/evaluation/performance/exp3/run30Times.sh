@@ -90,7 +90,7 @@ SHELL
       name: ${SERVICE}
     spec:
       selector:
-        app: ${SERVICE}
+        app: ${SERVER_POD}
       ports:
         - protocol: TCP
           port: 5000
