@@ -35,7 +35,8 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable} == $REPLICAS ]]
     then
-      echo $(kubectl logs ${SERVER_POD} | grep sec | awk '{print $8}')
+      tmp=$(kubectl logs ${SERVER_POD} | grep sec )
+      echo $(awk $tmp '{print $8}')
       break
     fi
   done
