@@ -21,12 +21,6 @@ spec:
           - bash
           - "-c"
         args:
-          - "iperf"
-          - "-c iperf-service"
-          - "-t 2"
-          - "-p 5000"
-          - "&&"
-          - "sleep"
-          - "3600"
+          - "iperf -c iperf-service -t 2 -p 5000 &&  sleep 3600"
         imagePullPolicy: IfNotPresent
 
