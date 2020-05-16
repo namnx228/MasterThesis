@@ -12,10 +12,22 @@ then
   #   kubectl delete ns test${i} || true
   #   # kubectl delete -f ../role/role-binding-${i}.yml | true
   # done
-  kubectl delete --all ns || true
+  set +e
+  for i in $(kubectl get ns | grep test | awk '{ print $1 }')
+  do
+    kubectl delete ns $i
+  done
+  while true
+  do
+    if (( $(kubectl get ns | grep test -c) > 0  ))
+    then
+      break
+    fi
+  done
+  set -e
 fi
 
-EXISTPOOL=$(calicoctl get ippool | grep pool -c) || true
+EXISTPOOL=$( python -c "print $(calicoctl get ippool | grep pool -c) - 1" )  || true
 if (( $EXISTPOOL > 0 ))
 then
   for i in  $(seq 1 $EXISTPOOL)
