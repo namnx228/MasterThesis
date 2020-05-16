@@ -2,57 +2,89 @@
 set -ex
 shopt -s expand_aliases
 alias kubectl="kubectl -n ${USER}"
-DEPLOYMENT_NAME="experienment1"
-REPLICAS_PARAS=${1:-2} # default number of pods is 2
+SERVER_POD="iperf-server"
+CLIENT_DEPLOYMENT="iperf-client"
+SERVICE="iperf-service"
+REPLICAS_PARAS=${1:-1} # Now: 1
 
-#----------Functions---------------------
-checkDeploymentAvailable (){
-  kubectl get deployments.apps ${DEPLOYMENT_NAME} -o jsonpath="{.status.replicas}"
-}
-
-loopUntilFoundTime(){
-  while true 
-  do
-    isAvailable=$(checkDeploymentAvailable)
-    if [[ ${isAvailable} == $REPLICAS ]]
-    then
-      break
-    fi
-  done
-}
 
 #---------------------------------------
 # FUnction: input: number of pods
 runTestOneTime() {
-  REPLICAS=${1:-2} # default number of pods is 2
-  kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
-  sleep 3 # Wait until termination is completely done
-  cat <<SHELL | kubectl apply -f - > /dev/null
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: ${DEPLOYMENT_NAME}
-    labels:
-      app: nginx
-  spec:
-    replicas: ${REPLICAS}
-    selector:
-      matchLabels:
-        app: nginx
-    template:
-      metadata:
-        labels:
-          app: nginx
-      spec:
-        containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-          - containerPort: 80
+  # Delete old thing
+  # Deploy new thing: Only one client
+  # sleep 3 to wait for connection done
+  # Collect result: How ?
+
+  REPLICAS=${1:-1} # Now: 1
+  kubectl delete deployment ${CLIENT_DEPLOYMENT}  > /dev/null || true
+  kubectl delete pod ${SERVER_POD}  > /dev/null || true
+  kubectl delete svc ${SERVICE}  > /dev/null || true
+  cat <<SHELL | kubectl apply -f - > /dev/null # Deploy server pod
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: ${SERVER_POD}
+      labels:
+        app: ${SERVER_POD}
+    spec:
+      containers:
+      - name: ${SERVER_POD}
+        image: namnx228/k8s-multitenancy-iperf-amd64
+        command:
+          - iperf
+          - "-s"
+          - "-p 5000"
+        ports:
+          - containerPort: 5000
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
 SHELL
-  set +x
-  echo $( ( time loopUntilFoundTime ) 2>&1)
-  set -x
+
+  cat <<SHELL | kubectl apply -f - > /dev/null # Deploy server service
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: ${SERVICE}
+    spec:
+      selector:
+        app: ${SERVICE}
+      ports:
+        - protocol: TCP
+          port: 5000
+          targetPort: 5000
+SHELL
+
+  cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ${CLIENT_DEPLOYMENT}
+      labels:
+        app: ${CLIENT_DEPLOYMENT}
+    spec:
+      replicas: ${REPLICAS}
+      selector:
+        matchLabels:
+          app: ${CLIENT_DEPLOYMENT}
+      template:
+        metadata:
+          labels:
+            app: ${CLIENT_DEPLOYMENT}
+        spec:
+          containers:
+          - name: ${CLIENT_DEPLOYMENT}
+            image: namnx228/k8s-multitenancy-iperf-amd64
+            command:
+              - bash
+              - "-c"
+              - "iperf -c ${SERVICE} -t 2 -p 5000 && sleep 3600"
+            imagePullPolicy: IfNotPresent
+SHELL
+  sleep 3 # Wait until termination is completely done
+
+  # kubectl log ... grep sec awk $6 
+  echo $(kubectl logs ${SERVER_POD} | grep sec | awk 'print $6')
 }
 
 run30Time(){
@@ -69,7 +101,7 @@ run30Time(){
   done
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
   result=$(python -c "print ${sum} / 30.0")
-  echo ${result}
+  echo ${result} "GBit/sec"
 }
 
 run30Time
