@@ -19,7 +19,7 @@ then
   done
   while true
   do
-    if (( $(kubectl get ns | grep test -c) > 0  ))
+    if (( $(kubectl get ns | grep test -c) ==  0  ))
     then
       break
     fi
