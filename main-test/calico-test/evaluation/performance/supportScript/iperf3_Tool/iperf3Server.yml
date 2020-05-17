@@ -9,6 +9,9 @@ spec:
   - name: iperf-server
     image: namnx228/k8s-multitenancy-iperf-amd64
     command:
+      - bash
+      - "-c"
+    args:
       - "iperf -s -p 5000 -f m"
       # - "-s"
       # - "-p 5000"
