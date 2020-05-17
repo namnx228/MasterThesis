@@ -118,8 +118,8 @@ runTestOneTime() {
         command:
           - iperf
           - "-s"
-          - "-p 5000"
-          - "-f m"
+          - "-p 5000 -f m"
+          # - "-f m"
         ports:
           - containerPort: 5000
         imagePullPolicy: IfNotPresent
