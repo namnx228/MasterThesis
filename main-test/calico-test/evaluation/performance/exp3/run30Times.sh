@@ -117,9 +117,9 @@ runTestOneTime() {
         image: namnx228/k8s-multitenancy-iperf-amd64
         command:
           - iperf
-          - "-s"
-          - "-p 5000 -f m"
-          # - "-f m"
+          # - "-s"
+          - "-p 5000"
+          - "-f m"
         ports:
           - containerPort: 5000
         imagePullPolicy: IfNotPresent
