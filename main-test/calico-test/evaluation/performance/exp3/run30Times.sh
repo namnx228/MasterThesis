@@ -116,10 +116,10 @@ runTestOneTime() {
       - name: ${SERVER_POD}
         image: namnx228/k8s-multitenancy-iperf-amd64
         command:
-          - iperf
-          - "-s"
-          - "-p 5000"
-          - "-f m"
+          - bash
+        args:
+          - "-c"
+          - "iperf -s -p 5000 -f m"
         ports:
           - containerPort: 5000
         imagePullPolicy: IfNotPresent
