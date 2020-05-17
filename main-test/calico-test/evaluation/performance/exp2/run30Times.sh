@@ -13,7 +13,8 @@ checkDeploymentAvailable (){
 loopUntilAvailabe()
 {
   while true 
-  do isAvailable=$(checkDeploymentAvailable)
+  do 
+    isAvailable=$(checkDeploymentAvailable)
     if [[ ${isAvailable} == $REPLICAS ]]
     then
       break
