@@ -89,7 +89,7 @@ deployClient(){
             command:
               - bash
               - "-c"
-              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -p 5000 && sleep 3600"
+              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -p 5000 -f m && sleep 3600"
             imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -119,7 +119,7 @@ runTestOneTime() {
           - iperf
           - "-s"
           - "-p 5000"
-          - "-f M"
+          - "-f m"
         ports:
           - containerPort: 5000
         imagePullPolicy: IfNotPresent
