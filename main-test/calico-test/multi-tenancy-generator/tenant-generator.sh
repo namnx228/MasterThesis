@@ -16,8 +16,8 @@ filelist=" \
   ../namespace/namespace.format \
   ../role-binding/role-binding.format \
   ../role/role.format \
-  ../pool/pools.format \
 "
+  # ../pool/pools.format \  For update the ip range, have to treat this special
 for file in ${filelist}
 do
   
@@ -51,4 +51,7 @@ echo "DEBUG: "
 pwd
 sed -e "s|\${i}|${NUMOFTENANTS}|g" ${fileWithoutPath} > ${fileWithoutExtension}.yaml
 popd
-
+#........................................
+# Treat pools.yml here
+rm ../pool/*
+./updatePools.py ${NUMOFTENANTS}
