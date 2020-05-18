@@ -34,7 +34,8 @@ loopUntilAvailabe()
   do 
     isClientAvailable=$(checkClientDeploymentAvailable)
 
-    if [[ ${isClientAvailable} == $REPLICAS ]] then
+    if [[ ${isClientAvailable} == $REPLICAS ]] 
+    then
       sleep $(python -c "print $TESTING_TIME + 2") # Test time + 2
       server_log=$(kubectl logs ${SERVER_POD} ${SERVER_POD} | grep sec )
       if [[ ${server_log} != ""  ]]
