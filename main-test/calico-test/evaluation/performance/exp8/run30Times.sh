@@ -40,7 +40,7 @@ loopUntilAvailabe()
     if [[ ${isClientAvailable} == $REPLICAS ]] 
     then
       sleep $(python -c "print $TESTING_TIME + 3") 
-      server_log=$(kubectl logs ${SERVER_POD} ${SERVER_POD} | grep "rtt" | awk '{print $9}')
+      server_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "rtt" | awk '{print $9}')
       if [[ ${server_log} != ""  ]]
       then
         echo $(echo ${server_log:4} )
