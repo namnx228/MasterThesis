@@ -14,12 +14,12 @@ print(numberTenants)
 
 iplist={}
 
-for i in range(numberTenants):
-    key='test'+str(i+1)
-    value='172.16.'+str(i+1)+'.0/24'
+for i in range(1, numberTenants+1):
+    key='test'+str(i)
+    value='172.' + str(16 + int( i / 256) ) + '.'+ str(i % 256)+'.0/24'
     iplist[key] = value
 
-iplist['all']='172.16.0.0/17'
+iplist['all']='172.16.0.0/14'
 outfile=open("iplist.json",'w')
 outfile.write(json.dumps(iplist))
 outfile.close()
