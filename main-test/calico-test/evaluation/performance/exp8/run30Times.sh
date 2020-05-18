@@ -13,6 +13,9 @@ REPLICAS_PARAS=${1:-1} # Now: 1
 
 
 #---------------------------------------
+getCol(){
+  echo ${@: -2}
+}
 checkClientDeploymentAvailable (){
   kubectl get pod  ${CLIENT_DEPLOYMENT} | grep Running -c
 }
@@ -40,7 +43,7 @@ loopUntilAvailabe()
     if [[ ${isClientAvailable}  > 0 ]] 
     then
       sleep $(python -c "print $TESTING_TIME + 3") 
-      server_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "rtt" | awk '{print $9}')
+      server_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "rtt" | getCol)
       if [[ ${server_log} != ""  ]]
       then
         echo $(echo ${server_log:4} )
