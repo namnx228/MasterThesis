@@ -159,7 +159,7 @@ run30Time(){
   done
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
   result=$(python -c "print ${sum} / 30.0")
-  echo ${result} "GBit/sec"
+  echo ${result} "MBit/sec"
 }
 
 run30Time
