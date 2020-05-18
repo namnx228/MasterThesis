@@ -25,7 +25,7 @@ for i in range(1, numOfTenants+1):
     second=16+int(i/256)
     third=i%256
     newPool = template.format(id=i, secondDigit=second, thirdDigit=third)
-    f = open("../pool/pools-" + str(i), "w")
+    f = open("../pool/pools-" + str(i) + ".yml", "w")
     print(newPool, file=f)
     f.close()
 
