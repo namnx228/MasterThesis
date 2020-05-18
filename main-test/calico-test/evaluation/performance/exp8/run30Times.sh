@@ -45,8 +45,8 @@ loopUntilAvailabe()
       then
         echo $(echo ${server_log:4} )
         break
-      else
-        deployClient > /dev/null
+      # else
+        # deployClient > /dev/null
       fi
     fi
   done
@@ -84,7 +84,7 @@ deployClient(){
             - bash
           args:
             - "-c"
-            - "hping3 -S -p ${SERVER_PORT} -c 1 ${SERVICE}"
+            - "hping3 -S -p ${SERVER_PORT} -c 1 ${SERVICE} && sleep 7200"
           imagePullPolicy: IfNotPresent
 SHELL
 }
