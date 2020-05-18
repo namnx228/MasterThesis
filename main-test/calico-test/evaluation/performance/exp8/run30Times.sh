@@ -2,9 +2,9 @@
 set -ex
 shopt -s expand_aliases
 alias kubectl="kubectl -n ${USER}"
-SERVER_POD="RTT-server"
-CLIENT_DEPLOYMENT="RTT-client"
-SERVICE="RTT-service"
+SERVER_POD="rtt-server"
+CLIENT_DEPLOYMENT="rtt-client"
+SERVICE="rtt-service"
 CLIENT_IMAGES="namnx228/k8s-multitenancy-rtt-amd64"
 SERVER_IMAGES="nginx:1.14.2"
 TESTING_TIME=2
