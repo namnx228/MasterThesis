@@ -3,6 +3,7 @@
 # 1 cai template
 # 1 thu vien de cong ip address
 import sys
+numOfTenants=0
 try:
     numOfTenants=int(sys.argv[1])
 except IndexError:
