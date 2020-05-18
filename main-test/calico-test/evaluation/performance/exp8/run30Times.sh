@@ -14,7 +14,7 @@ REPLICAS_PARAS=${1:-1} # Now: 1
 
 #---------------------------------------
 checkClientDeploymentAvailable (){
-  kubectl get pod  ${CLIENT_DEPLOYMENT} -o jsonpath="{.status.replicas}"
+  kubectl get pod  ${CLIENT_DEPLOYMENT} | grep Running -c
 }
 
 checkServerPodAvailable (){
@@ -37,7 +37,7 @@ loopUntilAvailabe()
   do 
     isClientAvailable=$(checkClientDeploymentAvailable)
 
-    if [[ ${isClientAvailable} == $REPLICAS ]] 
+    if [[ ${isClientAvailable}  > 0 ]] 
     then
       sleep $(python -c "print $TESTING_TIME + 3") 
       server_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "rtt" | awk '{print $9}')
