@@ -20,6 +20,6 @@ spec:
         command:
           - bash
           - "-c"
-          - "iperf -c iperf-service -t 2 -p 5000 -P 125 && sleep 3600"
+          - "iperf -c iperf-service -t 2 -p 5000 -P 100 && sleep 3600"
         imagePullPolicy: IfNotPresent
 
