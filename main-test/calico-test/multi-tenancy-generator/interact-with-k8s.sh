@@ -2,6 +2,7 @@
 set -ex
 NUMOFTENANT=$(($(ls ../namespace/ | wc -l) - 1))
 MAXNUMOFTENANTS=1024
+TENANTS_ENDPOINT=2
 
 EXISTNS=$(kubectl get ns | grep "test" -c) || true
 echo
@@ -58,7 +59,10 @@ pushd .
 cd user/
 for i in $(seq 1 ${NUMOFTENANT} )
 do
-  ./user_creation_flags.sh -u "test$i" -g O -d 500
+  if ((  $i <= ${TENANTS_ENDPOINT}  ))
+  then
+    ./user_creation_flags.sh -u "test$i" -g O -d 500
+  fi
   kubectl annotate ns "test$i" "cni.projectcalico.org/ipv4pools"="[\"pool${i}\"]"  --overwrite  || true
 done
 popd
