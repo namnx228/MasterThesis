@@ -89,9 +89,10 @@ deployClient(){
           - name: ${CLIENT_DEPLOYMENT}
             image: ${CLIENT_IMAGES}
             command:
-              - hping3
+              - bash
             args:
-              - "-S -p 80 -c 1 ${SERVICE}"
+              - "-c"
+              - "hping3 -S -p 80 -c 1 ${SERVICE}"
             imagePullPolicy: IfNotPresent
 SHELL
 }
