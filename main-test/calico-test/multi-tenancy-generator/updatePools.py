@@ -3,7 +3,11 @@
 # 1 cai template
 # 1 thu vien de cong ip address
 import sys
-numOfTenants=int(sys.argv[1])
+try:
+    numOfTenants=int(sys.argv[1])
+except IndexError:
+    print("Input, pleae !!!")
+
 template='''
 apiVersion: projectcalico.org/v3
 kind: IPPool
