@@ -2,9 +2,11 @@
 set -ex
 shopt -s expand_aliases
 alias kubectl="kubectl -n ${USER}"
-SERVER_POD="iperf-server"
-CLIENT_DEPLOYMENT="iperf-client"
-SERVICE="iperf-service"
+SERVER_POD="RTT-server"
+CLIENT_DEPLOYMENT="RTT-client"
+SERVICE="RTT-service"
+CLIENT_IMAGES="namnx228/k8s-multitenancy-rtt-amd64"
+SERVER_IMAGES="nginx:1.14.2"
 TESTING_TIME=2
 REPLICAS_PARAS=${1:-1} # Now: 1
 
@@ -28,7 +30,7 @@ loopUntilAvailabe()
       break
     fi
   done
-  # sleep 5 # Make sure that server and service are ready before client deployment
+
   deployClient > /dev/null
   while true 
   do 
@@ -36,11 +38,11 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable} == $REPLICAS ]] 
     then
-      sleep $(python -c "print $TESTING_TIME + 2 + 2") # Test time + 2 + (more time to ensure) 2
-      server_log=$(kubectl logs ${SERVER_POD} ${SERVER_POD} | grep "SUM" | grep "sec" )
+      sleep $(python -c "print $TESTING_TIME") 
+      server_log=$(kubectl logs ${SERVER_POD} ${SERVER_POD} | grep "rtt" | awk '{print $9}')
       if [[ ${server_log} != ""  ]]
       then
-        echo $(echo ${server_log} | awk '{print $7}')
+        echo $(echo ${server_log:4} )
         break
       else
         deployClient > /dev/null
@@ -85,11 +87,11 @@ deployClient(){
         spec:
           containers:
           - name: ${CLIENT_DEPLOYMENT}
-            image: namnx228/k8s-multitenancy-iperf-amd64
+            image: ${CLIENT_IMAGES}
             command:
-              - bash
-              - "-c"
-              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -p 5000 -f m -P 100 && sleep 3600"
+              - hping3
+            args:
+              - "-S -p 80 -c 1 ${SERVICE}"
             imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -114,14 +116,9 @@ runTestOneTime() {
     spec:
       containers:
       - name: ${SERVER_POD}
-        image: namnx228/k8s-multitenancy-iperf-amd64
-        command:
-          - bash
-        args:
-          - "-c"
-          - "iperf -s -p 5000 -f m"
+        image: ${SERVER_IMAGES}
         ports:
-          - containerPort: 5000
+          - containerPort: 8000
         imagePullPolicy: IfNotPresent
       restartPolicy: Always
 SHELL
@@ -136,8 +133,8 @@ SHELL
         app: ${SERVER_POD}
       ports:
         - protocol: TCP
-          port: 5000
-          targetPort: 5000
+          port: 8000
+          targetPort: 8000
 SHELL
 
   # deployClient # Deploy in the loopUntilAvailable
@@ -159,7 +156,7 @@ run30Time(){
   done
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
   result=$(python -c "print ${sum} / 30.0")
-  echo ${result} "MBit/sec"
+  echo ${result} "ms"
 }
 
 run30Time
