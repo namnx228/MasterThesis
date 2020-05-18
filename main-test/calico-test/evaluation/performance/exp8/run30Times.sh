@@ -71,30 +71,21 @@ deployClient(){
   loopUntilCLientTerminated > /dev/null
   cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
     apiVersion: apps/v1
-    kind: Deployment
+    kind: Pod
     metadata:
       name: ${CLIENT_DEPLOYMENT}
       labels:
         app: ${CLIENT_DEPLOYMENT}
     spec:
-      replicas: ${REPLICAS}
-      selector:
-        matchLabels:
-          app: ${CLIENT_DEPLOYMENT}
-      template:
-        metadata:
-          labels:
-            app: ${CLIENT_DEPLOYMENT}
-        spec:
-          containers:
-          - name: ${CLIENT_DEPLOYMENT}
-            image: ${CLIENT_IMAGES}
-            command:
-              - bash
-            args:
-              - "-c"
-              - "hping3 -S -p ${SERVER_PORT} -c 1 ${SERVICE}"
-            imagePullPolicy: IfNotPresent
+        containers:
+        - name: ${CLIENT_DEPLOYMENT}
+          image: ${CLIENT_IMAGES}
+          command:
+            - bash
+          args:
+            - "-c"
+            - "hping3 -S -p ${SERVER_PORT} -c 1 ${SERVICE}"
+          imagePullPolicy: IfNotPresent
 SHELL
 }
 #----------------------------------------
