@@ -14,7 +14,7 @@ REPLICAS_PARAS=${1:-1} # Now: 1
 
 #---------------------------------------
 checkClientDeploymentAvailable (){
-  kubectl get deployments.apps ${CLIENT_DEPLOYMENT} -o jsonpath="{.status.replicas}"
+  kubectl get pod  ${CLIENT_DEPLOYMENT} -o jsonpath="{.status.replicas}"
 }
 
 checkServerPodAvailable (){
@@ -53,7 +53,7 @@ loopUntilAvailabe()
 }
 
 checkClientTerminated (){
-  kubectl get deployments.apps ${CLIENT_DEPLOYMENT}  2> /dev/null
+  kubectl get pod ${CLIENT_DEPLOYMENT}  2> /dev/null
 }
 
 loopUntilCLientTerminated(){
@@ -67,7 +67,7 @@ loopUntilCLientTerminated(){
 }
 
 deployClient(){
-  kubectl delete deployment ${CLIENT_DEPLOYMENT}  > /dev/null || true
+  kubectl delete pod ${CLIENT_DEPLOYMENT}  > /dev/null || true
   loopUntilCLientTerminated > /dev/null
   cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
     apiVersion: apps/v1
@@ -147,7 +147,7 @@ run30Time(){
     thisTime=$(runTestOneTime ${REPLICAS_PARAS})
     sum=$(python -c "print ${sum} + ${thisTime}")
   done
-  kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
+  kubectl delete pod ${DEPLOYMENT_NAME}  > /dev/null || true
   result=$(python -c "print ${sum} / 30.0")
   echo ${result} "ms"
 }
