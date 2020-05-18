@@ -7,7 +7,7 @@ numOfTenants=0
 try:
     numOfTenants=int(sys.argv[1])
 except IndexError:
-    print("Input, pleae !!!")
+    print("Input, please !!!")
 
 template='''
 apiVersion: projectcalico.org/v3
