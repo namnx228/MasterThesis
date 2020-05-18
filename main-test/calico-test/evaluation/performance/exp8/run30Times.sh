@@ -70,7 +70,7 @@ deployClient(){
   kubectl delete pod ${CLIENT_DEPLOYMENT}  > /dev/null || true
   loopUntilCLientTerminated > /dev/null
   cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
-    apiVersion: apps/v1
+    apiVersion: v1
     kind: Pod
     metadata:
       name: ${CLIENT_DEPLOYMENT}
