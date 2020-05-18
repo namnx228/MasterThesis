@@ -7,6 +7,7 @@ CLIENT_DEPLOYMENT="rtt-client"
 SERVICE="rtt-service"
 CLIENT_IMAGES="namnx228/k8s-multitenancy-rtt-amd64"
 SERVER_IMAGES="nginx:1.14.2"
+SERVER_PORT=8000
 TESTING_TIME=2
 REPLICAS_PARAS=${1:-1} # Now: 1
 
@@ -92,7 +93,7 @@ deployClient(){
               - bash
             args:
               - "-c"
-              - "hping3 -S -p 80 -c 1 ${SERVICE}"
+              - "hping3 -S -p ${SERVER_PORT} -c 1 ${SERVICE}"
             imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -119,7 +120,7 @@ runTestOneTime() {
       - name: ${SERVER_POD}
         image: ${SERVER_IMAGES}
         ports:
-          - containerPort: 8000
+          - containerPort: ${SERVER_PORT}
         imagePullPolicy: IfNotPresent
       restartPolicy: Always
 SHELL
@@ -134,8 +135,8 @@ SHELL
         app: ${SERVER_POD}
       ports:
         - protocol: TCP
-          port: 8000
-          targetPort: 8000
+          port: ${SERVER_PORT}
+          targetPort: ${SERVER_PORT}
 SHELL
 
   # deployClient # Deploy in the loopUntilAvailable
