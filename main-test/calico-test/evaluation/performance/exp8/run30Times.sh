@@ -59,7 +59,7 @@ loopUntilAvailabe()
       then
         # echo $(echo ${server_log:4} )
         # findAverage dau vao la clinedt_log 
-        echo $(findAverage "${client_log}")
+        echo $(findAverage "${client_log}") "ms"
         break
       # else
         # deployClient > /dev/null
