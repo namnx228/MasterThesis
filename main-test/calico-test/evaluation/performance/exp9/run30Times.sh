@@ -2,37 +2,26 @@
 set -ex
 shopt -s expand_aliases
 alias kubectl="kubectl -n ${USER}"
-SERVER_POD="rtt-server"
-CLIENT_DEPLOYMENT="rtt-client"
-SERVICE="rtt-service"
-CLIENT_IMAGES="namnx228/k8s-multitenancy-rtt-amd64"
+SERVER_POD="api-rtt-server"
+CLIENT_DEPLOYMENT="api-rtt-client"
+SERVICE="api-rtt-service"
+CLIENT_IMAGES="namnx228/k8s-multitenancy-api-rtt-amd64"
 SERVER_IMAGES="nginx:1.14.2"
 SERVER_PORT=8000
 TESTING_TIME=2
-NUMOFPING=30
 REPLICAS_PARAS=${1:-1} # Now: 1
 
 
 #---------------------------------------
+getCol(){
+  echo ${@: -2}
+}
 checkClientDeploymentAvailable (){
   kubectl get pod  ${CLIENT_DEPLOYMENT} | grep Running -c
 }
 
 checkServerPodAvailable (){
   kubectl get pod ${SERVER_POD} | grep Running -c
-}
-
-findAverage(){
-  # List all item in the input
-  let sum=0
-  let result=0
-  for i in $(echo $1)
-  do
-    j=${i:4}
-    sum=$(python -c "print $sum + $j")
-  done
-  result=$(python -c "print ${sum} / ${NUMOFPING}")
-  echo $result
 }
 
 loopUntilAvailabe()
@@ -53,13 +42,11 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable}  > 0 ]] 
     then
-      sleep $(python -c "print $TESTING_TIME + 3") 
-      client_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "len" | grep "rtt" |  awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }' | awk '{print $2}')
-      if [[ ${client_log} != ""  ]]
+      sleep $(python -c "print $TESTING_TIME + 1") 
+      server_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "len" | grep "rtt" |  awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }' | awk '{print $2}')
+      if [[ ${server_log} != ""  ]]
       then
-        # echo $(echo ${server_log:4} )
-        # findAverage dau vao la clinedt_log 
-        echo $(findAverage "${client_log}")
+        echo $(echo ${server_log:4} )
         break
       # else
         # deployClient > /dev/null
@@ -83,7 +70,7 @@ loopUntilCLientTerminated(){
 }
 
 deployClient(){
-  kubectl delete --force --grace-period=0 pod ${CLIENT_DEPLOYMENT}  > /dev/null || true
+  kubectl delete  pod ${CLIENT_DEPLOYMENT}  > /dev/null || true
   loopUntilCLientTerminated > /dev/null
   cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
     apiVersion: v1
@@ -100,7 +87,8 @@ deployClient(){
             - bash
           args:
             - "-c"
-            - "hping3 -S -p ${SERVER_PORT} -c ${NUMOFPING} ${SERVICE} && sleep 7200"
+            - "hping3 -S -p ${SERVER_PORT} -c 1 ${SERVICE} && sleep 7200"
+            - "curl -w "@curl-format" ${SERVICE} && sleep 7200"
           imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -113,7 +101,7 @@ runTestOneTime() {
   # Collect result: How ?
 
   REPLICAS=${1:-1} # Now: 1
-  kubectl delete pod ${SERVER_POD}  > /dev/null || true
+  kubectl delete pod --force --grace-period=0 ${SERVER_POD}  > /dev/null || true
   kubectl delete svc ${SERVICE}  > /dev/null || true
   cat <<SHELL | kubectl apply -f - > /dev/null # Deploy server pod
     apiVersion: v1
@@ -168,5 +156,4 @@ run30Time(){
   echo ${result} "ms"
 }
 
-# run30Time
-runTestOneTime
+run30Time
