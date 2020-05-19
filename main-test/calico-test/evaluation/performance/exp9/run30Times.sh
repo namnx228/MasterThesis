@@ -114,7 +114,7 @@ runTestOneTime() {
       - name: ${SERVER_POD}
         image: ${SERVER_IMAGES}
         ports:
-          - containerPort: ${SERVER_PORT}
+          - containerPort: 80
         imagePullPolicy: IfNotPresent
       restartPolicy: Always
 SHELL
@@ -130,7 +130,7 @@ SHELL
       ports:
         - protocol: TCP
           port: ${SERVER_PORT}
-          targetPort: ${SERVER_PORT}
+          targetPort: 80
 SHELL
 
   # deployClient # Deploy in the loopUntilAvailable
