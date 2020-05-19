@@ -6,7 +6,8 @@ then
   exit 1
 fi
 REPLICAS_LIST=(2 40)
-NUM_OF_TENANTS_LIST=(2 4 8 16 32 64 128 1024)
+# NUM_OF_TENANTS_LIST=(2 4 8 16 32 64 128 1024)
+NUM_OF_TENANTS_LIST=(256)
 today=$(date +%d.%m-%T)
 
 user=${1:-"test1"}
