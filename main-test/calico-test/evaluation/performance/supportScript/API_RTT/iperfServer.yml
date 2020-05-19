@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iperf-server
+  labels:
+    app: iperf-server
+spec:
+  containers:
+  - name: iperf-server
+    image: namnx228/k8s-multitenancy-iperf-amd64
+    command:
+      - bash
+    args:
+      - "-c"
+      - "iperf -s -p 5000 -f m"
+      # - "-s"
+      # - "-p 5000"
+      # - "-f m"
+    ports:
+      - containerPort: 5000
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+
