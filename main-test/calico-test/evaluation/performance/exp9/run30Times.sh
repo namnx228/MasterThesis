@@ -43,10 +43,10 @@ loopUntilAvailabe()
     if [[ ${isClientAvailable}  > 0 ]] 
     then
       sleep $(python -c "print $TESTING_TIME + 1") 
-      server_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "len" | grep "rtt" |  awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }' | awk '{print $2}')
-      if [[ ${server_log} != ""  ]]
+      client_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep time_total | awk '{print $2}' )
+      if [[ ${client_log} != ""  ]]
       then
-        echo $(echo ${server_log:4} )
+        echo ${client_log}
         break
       # else
         # deployClient > /dev/null
@@ -87,7 +87,6 @@ deployClient(){
             - bash
           args:
             - "-c"
-            - "hping3 -S -p ${SERVER_PORT} -c 1 ${SERVICE} && sleep 7200"
             - "curl -w "@curl-format" ${SERVICE} && sleep 7200"
           imagePullPolicy: IfNotPresent
 SHELL
