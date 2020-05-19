@@ -70,7 +70,7 @@ loopUntilCLientTerminated(){
 }
 
 deployClient(){
-  kubectl delete pod ${CLIENT_DEPLOYMENT}  > /dev/null || true
+  kubectl delete --force --grace-period=0 pod ${CLIENT_DEPLOYMENT}  > /dev/null || true
   loopUntilCLientTerminated > /dev/null
   cat <<SHELL | kubectl apply -f - > /dev/null  # Deploy client 
     apiVersion: v1
@@ -100,7 +100,7 @@ runTestOneTime() {
   # Collect result: How ?
 
   REPLICAS=${1:-1} # Now: 1
-  kubectl delete pod -f --grace-period=0 ${SERVER_POD}  > /dev/null || true
+  kubectl delete pod --force --grace-period=0 ${SERVER_POD}  > /dev/null || true
   kubectl delete svc ${SERVICE}  > /dev/null || true
   cat <<SHELL | kubectl apply -f - > /dev/null # Deploy server pod
     apiVersion: v1
