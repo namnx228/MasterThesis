@@ -87,7 +87,7 @@ deployClient(){
             - bash
           args:
             - "-c"
-            - "curl -w "@curl-format" ${SERVICE} && sleep 7200"
+            - "curl -w '@curl-format' ${SERVICE} && sleep 7200"
           imagePullPolicy: IfNotPresent
 SHELL
 }
