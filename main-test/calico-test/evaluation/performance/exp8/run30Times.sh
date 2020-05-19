@@ -100,7 +100,7 @@ runTestOneTime() {
   # Collect result: How ?
 
   REPLICAS=${1:-1} # Now: 1
-  kubectl delete pod ${SERVER_POD}  > /dev/null || true
+  kubectl delete pod -f --grace-period=0 ${SERVER_POD}  > /dev/null || true
   kubectl delete svc ${SERVICE}  > /dev/null || true
   cat <<SHELL | kubectl apply -f - > /dev/null # Deploy server pod
     apiVersion: v1
