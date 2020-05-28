@@ -24,6 +24,22 @@ checkServerPodAvailable (){
   kubectl get pod ${SERVER_POD} | grep Running -c
 }
 
+findAverage(){
+  # List all item in the input
+  let sum=0
+  let result=0
+  let lastIterator=0
+  for i in $(echo $1)
+  do
+    # j=${i:4}
+    # sum=$(python -c "print $sum + $j")
+    sum=$(python -c "print $sum + $i")
+    lastIterator=$i
+  done
+  result=$(python -c "print ${sum} / ${lastIterator}")
+  echo $result
+}
+
 loopUntilAvailabe()
 {
   while true 
@@ -46,7 +62,7 @@ loopUntilAvailabe()
       client_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep time_total | awk '{print $2}' )
       if [[ ${client_log} != ""  ]]
       then
-        echo ${client_log}
+        findAverage "${client_log}"
         break
       # else
         # deployClient > /dev/null
@@ -87,7 +103,7 @@ deployClient(){
             - bash
           args:
             - "-c"
-            - "curl -w '@curl-format' ${SERVICE}:${SERVER_PORT} && sleep 7200"
+            - "./run.sh ${SERVICE} ${SERVER_PORT}"
           imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -134,7 +150,7 @@ SHELL
 SHELL
 
   # deployClient # Deploy in the loopUntilAvailable
-  sleep 3 # Wait until server deployment is done
+  # sleep 3 # Wait until server deployment is done
   echo $(loopUntilAvailabe)
 }
 
@@ -155,4 +171,9 @@ run30Time(){
   echo ${result} "ms"
 }
 
-run30Time
+runTestOneTime
+# run30Time
+# run 1 lam
+# gui 1000 requests
+# O day chi 1 lan thoi
+# 1000 o cai images
