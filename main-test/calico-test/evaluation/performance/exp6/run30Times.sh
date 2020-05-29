@@ -5,7 +5,8 @@ alias kubectl="kubectl -n ${USER}"
 SERVER_POD="iperf-server"
 CLIENT_DEPLOYMENT="iperf-client"
 SERVICE="iperf-service"
-TESTING_TIME=2
+TESTING_TIME=30
+INTERVAL_TIME=30
 REPLICAS_PARAS=${1:-1} # Now: 1
 
 
@@ -89,7 +90,7 @@ deployClient(){
             command:
               - bash
               - "-c"
-              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -p 5000 -f m && sleep 3600"
+              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -i ${INTERVAL_TIME} -p 5000 -f m && sleep 3600"
             imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -162,4 +163,5 @@ run30Time(){
   echo ${result} #"MBit/sec"
 }
 
-run30Time
+# run30Time
+runTestOneTime
