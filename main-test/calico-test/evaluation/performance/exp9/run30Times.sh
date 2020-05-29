@@ -64,7 +64,7 @@ loopUntilAvailabe()
       sleep $(python -c "print $TESTING_TIME + 1") 
       client_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep time_total | awk '{print $2}' )
       # client_log check number of lines
-      if [[ $( echo "${client_log}" | wc -l) >= ${NUMOFREQ}  ]]
+      if (( $( echo "${client_log}" | wc -l) >= ${NUMOFREQ} )) 
       then
         findAverage "${client_log}"
         break
