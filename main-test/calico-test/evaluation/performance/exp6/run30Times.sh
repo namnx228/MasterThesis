@@ -37,14 +37,14 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable} == $REPLICAS ]]
     then
-      sleep $(python -c "print $TESTING_TIME + 2") # Test time + 2
+      # sleep $(python -c "print $TESTING_TIME + 2") # Test time + 2
       server_log=$(kubectl logs ${SERVER_POD} ${SERVER_POD} | grep sec )
       if [[ ${server_log} != ""  ]]
       then
-        echo $(echo ${server_log} | awk '{print $8}')
+        echo $(echo ${server_log} | awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }' | awk '{print $2}')
         break
-      else
-        deployClient > /dev/null
+      # else
+      #   deployClient > /dev/null
       fi
     fi
   done
