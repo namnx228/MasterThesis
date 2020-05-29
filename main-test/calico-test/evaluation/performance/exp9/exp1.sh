@@ -6,6 +6,7 @@ today=$(date +%d.%m-%T)
 if (( $# < 2 ))
 then
   echo "more input, please"
+  exit 1
 fi
 user=${1:-"test1"}
 testname=$2
