@@ -34,7 +34,7 @@ findAverage(){
     # j=${i:4}
     # sum=$(python -c "print $sum + $j")
     sum=$(python -c "print $sum + $i")
-    lastIterator=$i
+    lastIterator=$(python -c "print $lastIterator + 1")
   done
   result=$(python -c "print ${sum} / ${lastIterator}")
   echo $result
