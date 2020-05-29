@@ -103,7 +103,7 @@ deployClient(){
             - bash
           args:
             - "-c"
-            - "/root/run.sh ${SERVICE} ${SERVER_PORT}"
+            - "/run.sh ${SERVICE} ${SERVER_PORT}"
           imagePullPolicy: IfNotPresent
 SHELL
 }
