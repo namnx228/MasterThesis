@@ -12,7 +12,9 @@ user=${1:-"test1"}
 testname=$2
 pushd .
   cd ../../../multi-tenancy-generator/
-  ./all-in-one-deployment.sh 2
+  # ./all-in-one-deployment.sh 2 Not in use because I dont wnat to call docker push
+  ./tenant-generator.sh 2
+  yes Y | ./interact-with-k8s.sh
   kubectl label namespace test1 sidecar-injector=disabled --overwrite # Ensure that test1 is in insecure situation 
 popd
 if [[ ${user} == "test1"  ]]
