@@ -165,7 +165,8 @@ run30Time(){
   done
   kubectl delete pod ${DEPLOYMENT_NAME}  > /dev/null || true
   result=$(python -c "print ${sum} / 30.0")
-  echo ${result} "ms"
+  # echo ${result} "ms"
+  echo ${result} # "ms"
 }
 
 # run30Time
