@@ -103,7 +103,7 @@ deployClient(){
             - bash
           args:
             - "-c"
-            - "./run.sh ${SERVICE} ${SERVER_PORT}"
+            - "/root/run.sh ${SERVICE} ${SERVER_PORT}"
           imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -168,7 +168,7 @@ run30Time(){
   done
   kubectl delete pod ${DEPLOYMENT_NAME}  > /dev/null || true
   result=$(python -c "print ${sum} / 30.0")
-  echo ${result} "ms"
+  echo ${result} 
 }
 
 runTestOneTime
