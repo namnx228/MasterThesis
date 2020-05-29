@@ -3,5 +3,5 @@ MAINTAINER Nam Xuan Nguyen
 RUN apt update -y
 RUN apt-get install curl -y
 COPY curl-format ./
-COPY run.sh ./
+COPY run.sh /run.sh
 ENTRYPOINT ["/bin/bash"]
