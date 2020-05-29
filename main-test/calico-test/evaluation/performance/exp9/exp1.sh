@@ -28,7 +28,7 @@ mkdir ./result/${secure} -p
 for i in ${REPLICAS_LIST[@]}
 do
   # echo $i >> ${result_file} # Number of replicas
-  sudo -u ${user} -H ./run30Times.sh $i >> ${result_file}
+  sudo -u ${user} -H ./run30Times.sh $i > ${result_file}
   # printf "\0\0" >> ${result_file}
   # echo -e "------------------------------------\n">> ${result_file}
 done
