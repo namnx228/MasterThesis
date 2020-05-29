@@ -10,6 +10,7 @@ SERVER_IMAGES="nginx:1.14.2"
 SERVER_PORT=8000
 TESTING_TIME=2
 REPLICAS_PARAS=${1:-1} # Now: 1
+NUMOFREQ=1000
 
 
 #---------------------------------------
@@ -40,6 +41,8 @@ findAverage(){
   echo $result
 }
 
+
+
 loopUntilAvailabe()
 {
   while true 
@@ -60,12 +63,11 @@ loopUntilAvailabe()
     then
       sleep $(python -c "print $TESTING_TIME + 1") 
       client_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep time_total | awk '{print $2}' )
-      if [[ ${client_log} != ""  ]]
+      # client_log check number of lines
+      if [[ $( echo "${client_log}" | wc -l) >= ${NUMOFREQ}  ]]
       then
         findAverage "${client_log}"
         break
-      # else
-        # deployClient > /dev/null
       fi
     fi
   done
