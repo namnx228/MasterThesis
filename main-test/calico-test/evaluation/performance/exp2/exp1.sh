@@ -23,8 +23,8 @@ else
   secure="secure"
 fi
 result_file="./result/${secure}/${testname}"
-echo -n > ${result_file}
 mkdir ./result/${secure} -p
+echo -n > ${result_file}
 for i in ${REPLICAS_LIST[@]}
 do
   # echo $i >> ${result_file} # Number of replicas

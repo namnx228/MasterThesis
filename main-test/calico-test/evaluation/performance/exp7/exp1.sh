@@ -25,6 +25,7 @@ else
 fi
 result_file="./result/${secure}/${testname}"
 mkdir ./result/${secure} -p
+echo -n > ${result_file}
 for i in ${REPLICAS_LIST[@]}
 do
   # echo $i >> ${result_file} # Number of replicas
