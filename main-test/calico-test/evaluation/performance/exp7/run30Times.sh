@@ -41,7 +41,7 @@ loopUntilAvailabe()
       server_log=$(kubectl logs ${SERVER_POD} ${SERVER_POD} | grep "SUM" | grep "sec" | awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }')
       if [[ ${server_log} != ""  ]]
       then
-        echo $(echo ${server_log} | awk '{print $7}')
+        echo $(echo ${server_log} | awk '{print $2}')
         break
       # else
       #   deployClient > /dev/null
