@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
-NUMTURN=5
+NUMTURN=10
 runSpecificExperienment(){
+  experienmentName=$1
+  testname=$2
   pushd .
-    cd ../$1
-    ./exp1_vari_tenants.sh test1 && ./exp1_vari_tenants.sh test2
+    cd ../${experienmentName}
+    ./exp1.sh test1 ${testname} && ./exp1.sh test2 ${testname}
   popd
 }
 for i in $(seq 1 ${NUMTURN})
 do
-  runSpecificExperienment exp1
-  runSpecificExperienment exp2
-  runSpecificExperienment exp6
-  runSpecificExperienment exp7
-  runSpecificExperienment exp8
-  runSpecificExperienment exp9
+  runSpecificExperienment exp1 $i
+  runSpecificExperienment exp2 $i
+  runSpecificExperienment exp6 $i
+  runSpecificExperienment exp7 $i
+  runSpecificExperienment exp8 $i
+  runSpecificExperienment exp9 $i
   # ../exp1/exp1_vari_tenants.sh test1 && ../exp1/exp1_vari_tenants.sh test2
   # ../exp2/exp1_vari_tenants.sh test1 && ../exp2/exp1_vari_tenants.sh test2
   # ../exp6/exp1_vari_tenants.sh test1 && ../exp6/exp1_vari_tenants.sh test2
