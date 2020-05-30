@@ -54,7 +54,7 @@ loopUntilAvailabe()
     if [[ ${isClientAvailable}  > 0 ]] 
     then
       sleep $(python -c "print $TESTING_TIME + 3") 
-      client_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "len" | grep "rtt" |  awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }' | awk '{print $2}')
+      client_log=$(kubectl logs ${CLIENT_DEPLOYMENT} ${CLIENT_DEPLOYMENT} | grep "len" | grep "rtt" | awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }' | awk '{print $2}')
       if [[ ${client_log} != ""  ]]
       then
         # echo $(echo ${server_log:4} )

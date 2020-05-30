@@ -5,7 +5,8 @@ alias kubectl="kubectl -n ${USER}"
 SERVER_POD="iperf-server"
 CLIENT_DEPLOYMENT="iperf-client"
 SERVICE="iperf-service"
-TESTING_TIME=2
+TESTING_TIME=30
+INTERVAL_TIME=${TESTING_TIME}
 REPLICAS_PARAS=${1:-1} # Now: 1
 
 
@@ -36,14 +37,14 @@ loopUntilAvailabe()
 
     if [[ ${isClientAvailable} == $REPLICAS ]] 
     then
-      sleep $(python -c "print $TESTING_TIME + 2 + 2") # Test time + 2 + (more time to ensure) 2
+      # sleep $(python -c "print $TESTING_TIME + 2 + 2") # Test time + 2 + (more time to ensure) 2
       server_log=$(kubectl logs ${SERVER_POD} ${SERVER_POD} | grep "SUM" | grep "sec" )
       if [[ ${server_log} != ""  ]]
       then
         echo $(echo ${server_log} | awk '{print $7}')
         break
-      else
-        deployClient > /dev/null
+      # else
+      #   deployClient > /dev/null
       fi
     fi
   done
@@ -89,7 +90,7 @@ deployClient(){
             command:
               - bash
               - "-c"
-              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -p 5000 -f m -P 100 && sleep 3600"
+              - "iperf -c ${SERVICE} -t ${TESTING_TIME} -i ${INTERVAL_TIME}  -p 5000 -f m -P 100 && sleep 3600"
             imagePullPolicy: IfNotPresent
 SHELL
 }
@@ -162,4 +163,5 @@ run30Time(){
   echo ${result} # "MBit/sec"
 }
 
-run30Time
+# run30Time
+runTestOneTime
