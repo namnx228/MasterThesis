@@ -26,7 +26,7 @@ waitUntilTerminationDone(){
   kubectl delete deployment ${DEPLOYMENT_NAME}  > /dev/null || true
   while true
   do
-    checkDone=$(kubectl get deployment 2> /dev/null )
+    checkDone=$(kubectl get pod 2> /dev/null ) # need to check pod, because deployment cannot found, but pod can be found, still !!!
     if [[ $checkDone == "" ]]
     then
       break
