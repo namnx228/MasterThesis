@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 NUMTURN=10
+startIndex=3 # We already have 1,2
 runSpecificExperienment(){
   experienmentName=$1
   testname=$2
@@ -8,7 +9,7 @@ runSpecificExperienment(){
     ./exp1.sh test1 ${testname} && ./exp1.sh test2 ${testname}
   popd
 }
-for i in $(seq 1 ${NUMTURN})
+for i in $(seq ${startIndex} ${NUMTURN})
 do
   runSpecificExperienment exp1 $i
   runSpecificExperienment exp2 $i
