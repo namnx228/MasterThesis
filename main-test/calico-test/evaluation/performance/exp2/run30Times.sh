@@ -76,7 +76,7 @@ SHELL
 run30Time(){
   let sum=0 || true
   let thisTime=0 || true
-  for i in $(seq 1 31)
+  for i in $(seq 1 4) # Not 31 as usual, because this experienment need a lot of time: around 55s until all pods are terminated
   do
     if (( $i == 1 ))
     then
