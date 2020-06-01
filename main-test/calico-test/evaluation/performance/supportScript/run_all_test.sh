@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 NUMTURN=10
-startIndex=3 # We already have 1,2
+startIndex=8 # We already have 1,2
 runSpecificExperienment(){
   experienmentName=$1
   testname=$2
@@ -11,8 +11,8 @@ runSpecificExperienment(){
 }
 for i in $(seq ${startIndex} ${NUMTURN})
 do
-  runSpecificExperienment exp1 $i
-  runSpecificExperienment exp2 $i
+  #runSpecificExperienment exp1 $i
+  #runSpecificExperienment exp2 $i
   runSpecificExperienment exp6 $i
   runSpecificExperienment exp7 $i
   runSpecificExperienment exp8 $i
