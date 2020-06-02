@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -ex
-REPLICAS_LIST=(2 5 10 15 20 25 30 35 40)
+#REPLICAS_LIST=(2 5 10 15 20 25 30 35 40)
+REPLICAS_LIST=(20 35)
 today=$(date +%d.%m-%T)
 if (( $# < 2 ))
 then
