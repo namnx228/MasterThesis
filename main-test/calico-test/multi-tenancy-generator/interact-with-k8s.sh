@@ -14,11 +14,11 @@ then
   #   # kubectl delete -f ../role/role-binding-${i}.yml | true
   # done
   set +e
-  # for i in $(kubectl get ns | grep test | awk '{ print $1 }')
-  # do
-  #   kubectl delete ns $i &
-  # done
-  kubectl delete --all ns # No need to use kubectl top to meassure ram and cpu
+  for i in $(kubectl get ns | grep test | awk '{ print $1 }')
+  do
+    kubectl delete ns $i &
+  done
+  # kubectl delete --all ns # Need the kube-node-lease
   while true
   do
     if (( $(kubectl get ns | grep test -c) ==  0  ))
