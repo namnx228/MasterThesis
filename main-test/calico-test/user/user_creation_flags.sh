@@ -55,12 +55,14 @@ create_user() {
         docker cp /tmp/$user/$user.key ${cluster_name}-control-plane-1:/tmp/
 
 	#kubectl config set-credentials $user --client-certificate=/tmp/$user/$user.crt  --client-key=/tmp/$user/$user.key
-	kubectl config set-credentials $user --client-certificate=$user_home/.certs/$user.crt  --client-key=$user_home/.certs/$user.key
+        # No need to let cluster know private key
+	# kubectl config set-credentials $user --client-certificate=$user_home/.certs/$user.crt  --client-key=$user_home/.certs/$user.key
 
 
 	#Create the context for the user
-	printf "\nContext Creation\n"
-	kubectl config set-context $user-context --cluster=$cluster_name --user=$user 
+	# printf "\nContext Creation\n"
+        # No need to set context
+	# kubectl config set-context $user-context --cluster=$cluster_name --user=$user 
 
         # if [[ $user == "test1" ]]
         # then
